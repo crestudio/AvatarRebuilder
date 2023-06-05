@@ -97,6 +97,7 @@ namespace com.vrsuya.avatarrebuilder {
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
 		internal static void Recovery() {
+			TargetBoneType = GetBoneNameType();
 			GetHeadSkinnedMeshRenderers();
 			ResizeNewAvatarTransform();
 			GetArmatureTransforms();
@@ -128,6 +129,28 @@ namespace com.vrsuya.avatarrebuilder {
 			return Enum.GetValues(typeof(HumanBodyBones)).Cast<HumanBodyBones>().ToList();
 		}
 
+		/// <summary>어떤 본 이름 타입을 검색해야 될 지 타입을 검색합니다.</summary>
+		/// <returns>검색해야 되는 본 이름 타입</returns>
+		private static BoneNameType GetBoneNameType() {
+			BoneNameType TargetBoneType = BoneNameType.General;
+			switch (TargetAvatar) {
+				case Avatar.NULL:
+				case Avatar.SELESTIA:
+					TargetBoneType = BoneNameType.General;
+					break;
+				case Avatar.Karin:
+				case Avatar.Milk:
+				case Avatar.Mint:
+				case Avatar.Rusk:
+					TargetBoneType = BoneNameType.Komado;
+					break;
+				case Avatar.Yoll:
+					TargetBoneType = BoneNameType.Yoll;
+					break;
+			}
+			return TargetBoneType;
+		}
+
 		/// <summary>각 아바타의 Armature Transform 배열을 찾습니다.</summary>
 		private static void GetArmatureTransforms() {
 			Transform[] NewAvatarTransforms = NewAvatarGameObject.GetComponentsInChildren<Transform>(true);
@@ -139,8 +162,8 @@ namespace com.vrsuya.avatarrebuilder {
 
 		/// <summary>신규 아바타에서 루트 볼 본 목록 얻습니다.</summary>
 		private static void GetCheekTransforms() {
-			if (TargetAvatar != AvatarType.SELESTIA) {
-				string[] CheekBoneNames = dictCheekBoneNames[TargetAvatar].Take(2).ToArray();
+			if (TargetAvatar != Avatar.SELESTIA) {
+				string[] CheekBoneNames = dictCheekBoneNames[TargetBoneType].Take(2).ToArray();
 				NewCheekBoneGameObjects = Array.FindAll(NewArmatureTransforms, ArmatureTransform => Array.Exists(CheekBoneNames, BoneName => ArmatureTransform.gameObject.name == BoneName) == true).Select(Transform => Transform.gameObject).ToArray();
 			}
 			return;
@@ -214,7 +237,7 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <summary>기존에 이미 존재하는 아바타 루트 볼 본 목록을 얻습니다.</summary>
 		/// <returns>기존 존재하는 아바타 루트 볼 본 배열</returns>
 		private static GameObject[] GetOldCheekBoneGameObjects() {
-			string[] CheekBoneNames = dictCheekBoneNames[TargetAvatar].Take(2).ToArray();
+			string[] CheekBoneNames = dictCheekBoneNames[TargetBoneType].Take(2).ToArray();
 			OldCheekBoneGameObjects = Array.FindAll(OldArmatureTransforms, OldTransform => Array.Exists(CheekBoneNames, BoneName => OldTransform.gameObject.name == BoneName) == true).Select(Item => Item.gameObject).ToArray();
 			return OldCheekBoneGameObjects;
 		}
@@ -224,8 +247,8 @@ namespace com.vrsuya.avatarrebuilder {
 			for (int NewIndex = 0; NewIndex < NewArmatureTransforms.Length; NewIndex++) {
 				for (int OldIndex = 0; OldIndex < OldArmatureTransforms.Length; OldIndex++) {
 					if (NewArmatureTransforms[NewIndex] && OldArmatureTransforms[OldIndex] && NewArmatureTransforms[NewIndex].name == OldArmatureTransforms[OldIndex].name) {
-						if (TargetAvatar == AvatarType.Komado || TargetAvatar == AvatarType.Yoll) {
-							if (Array.Exists(dictCheekBoneNames[TargetAvatar], BoneName => NewArmatureTransforms[NewIndex].name == BoneName)) continue;
+						if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) {
+							if (Array.Exists(dictCheekBoneNames[TargetBoneType], BoneName => NewArmatureTransforms[NewIndex].name == BoneName)) continue;
 						}
 						NewArmatureTransforms[NewIndex].localPosition = OldArmatureTransforms[OldIndex].localPosition;
 						NewArmatureTransforms[NewIndex].localRotation = OldArmatureTransforms[OldIndex].localRotation;
@@ -323,8 +346,8 @@ namespace com.vrsuya.avatarrebuilder {
 				for (int BoneIndex = 0; BoneIndex < ChildBones.Length; BoneIndex++) {
 					for (int TransformIndex = 0; TransformIndex < OldArmatureTransforms.Length; TransformIndex++) {
 						if (ChildBones[BoneIndex] && OldArmatureTransforms[TransformIndex] && ChildBones[BoneIndex].name == OldArmatureTransforms[TransformIndex].name) {
-							if (TargetAvatar == AvatarType.Komado || TargetAvatar == AvatarType.Yoll) {
-								if (Array.Exists(dictCheekBoneNames[TargetAvatar], BoneName => ChildBones[BoneIndex].name == BoneName)) continue;
+							if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) {
+								if (Array.Exists(dictCheekBoneNames[TargetBoneType], BoneName => ChildBones[BoneIndex].name == BoneName)) continue;
 							}
 							if (ToggleResetRestPose == true) {
 								OldArmatureTransforms[TransformIndex].transform.localPosition = ChildBones[BoneIndex].transform.localPosition;
@@ -421,7 +444,7 @@ namespace com.vrsuya.avatarrebuilder {
 
 		/// <summary>작업 완료 후 불필요한 GameObject 삭제합니다.</summary>
 		private static void DeleteGameObjects() {
-			if (TargetAvatar == AvatarType.Komado || TargetAvatar == AvatarType.Yoll) {
+			if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) {
 				if (OldCheekBoneGameObjects.Length > 0) {
 					for (int Index = 0; Index < OldCheekBoneGameObjects.Length; Index++) {
 						DestroyImmediate(OldCheekBoneGameObjects[Index]);
