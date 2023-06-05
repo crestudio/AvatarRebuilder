@@ -42,10 +42,10 @@ namespace com.vrsuya.avatarrebuilder {
 		// 사전 데이터
 		private static List<HumanBodyBones> HumanBodyBoneList = GetHumanBoneList();
 		private static readonly string[] ArmatureNames = { "Armature", "armature", "Sonia", "Ash" };
-		private static readonly Dictionary<AvatarType, string[]> dictCheekBoneNames = new Dictionary<AvatarType, string[]>() {
-			{ AvatarType.Generic, new string[] { "Cheek1_L", "Cheek1_R", "Cheek2_L", "Cheek2_R" } },
-			{ AvatarType.Komado, new string[] { "Cheek_Root_L", "Cheek_Root_R", "Cheek_L", "Cheek_R" } },
-			{ AvatarType.Yoll, new string[] { "Cheek1_L", "Cheek1_R", "ho_L", "ho_R" } }
+		private static readonly Dictionary<BoneNameType, string[]> dictCheekBoneNames = new Dictionary<BoneNameType, string[]>() {
+			{ BoneNameType.General, new string[] { "Cheek1_L", "Cheek1_R", "Cheek2_L", "Cheek2_R" } },
+			{ BoneNameType.Komado, new string[] { "Cheek_Root_L", "Cheek_Root_R", "Cheek_L", "Cheek_R" } },
+			{ BoneNameType.Yoll, new string[] { "Cheek1_L", "Cheek1_R", "ho_L", "ho_R" } }
 		};
 		private static readonly string[,] dictToeNames = {
 			{ "ThumbToe1_L", "ThumbToe2_L", "ThumbToe3_L" },
