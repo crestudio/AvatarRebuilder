@@ -94,8 +94,6 @@ namespace com.vrsuya.avatarrebuilder {
 		}
 
 		internal static void Recovery() {
-			GetTargetAvatarAnimator(NewAvatarGameObject, NewAvatarAnimator);
-			GetTargetAvatarAnimator(OldAvatarGameObject, OldAvatarAnimator);
 			GetHeadSkinnedMeshRenderers();
 			ResizeNewAvatarTransform();
 			GetArmatureTransforms();
@@ -163,14 +161,6 @@ namespace com.vrsuya.avatarrebuilder {
 				if (!OldAvatarHeadEyelidsSkinnedMeshRenderer) NewAvatarHeadEyelidsSkinnedMeshRenderer = Array.Find(NewAvatarSkinnedMeshRenderers, NewSkinnedMeshRenderer => OldAvatarHeadEyelidsSkinnedMeshRenderer.gameObject.name == NewSkinnedMeshRenderer.gameObject.name);
 			}
 			return NewAvatarHeadVisemeSkinnedMeshRenderer;
-		}
-
-		// 요청한 아바타의 Animator 컴포넌트 반환 함수
-		private static Animator GetTargetAvatarAnimator(GameObject TargetGameObject, Animator TargetAnimator) {
-			if (!TargetGameObject) {
-				if (TargetGameObject.GetComponent<Animator>()) TargetAnimator = TargetGameObject.GetComponent<Animator>();
-			}
-			return TargetAnimator;
 		}
 
 		// EYO 및 IMERIS 헤어 관련 버그 문제 해결
