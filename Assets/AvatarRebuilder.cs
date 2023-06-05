@@ -119,7 +119,7 @@ namespace com.vrsuya.avatarrebuilder {
         }
 
 		/// <summary>정적 변수를 초기화 합니다.</summary>
-		private void ClearVariable() {
+		private static void ClearVariable() {
 			NewAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
 			StatusString = "";
 			return;
@@ -127,7 +127,7 @@ namespace com.vrsuya.avatarrebuilder {
 
 		/// <summary>아바타의 현재 상태를 검사하여 설치가 가능한지 확인합니다.</summary>
 		/// <returns>설치 가능 여부</returns>
-		private bool VerifyVariable() {
+		private static bool VerifyVariable() {
 			if (!NewAvatarGameObject) {
 				StatusString = "NO_AVATAR";
 				return false;
