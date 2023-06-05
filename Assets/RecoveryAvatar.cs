@@ -22,22 +22,22 @@ namespace com.vrsuya.avatarrebuilder {
 	public class RecoveryAvatar : AvatarRebuilder {
 
 		// 정적 변수
-		private static GameObject[] NewAvatarGameObjects = new GameObject[0];
-		private static GameObject[] OldAvatarGameObjects = new GameObject[0];
+		private static GameObject[] NewAvatarGameObjects;
+		private static GameObject[] OldAvatarGameObjects;
 
-		private static Transform[] NewArmatureTransforms = new Transform[0];
-		private static Transform[] OldArmatureTransforms = new Transform[0];
+		private static Transform[] NewArmatureTransforms;
+		private static Transform[] OldArmatureTransforms;
 
-		private static VRCAvatarDescriptor OldVRCAvatarDescriptor = null;
-		private static SkinnedMeshRenderer NewAvatarHeadVisemeSkinnedMeshRenderer = null;
-		private static SkinnedMeshRenderer NewAvatarHeadEyelidsSkinnedMeshRenderer = null;
+		private static VRCAvatarDescriptor OldVRCAvatarDescriptor;
+		private static SkinnedMeshRenderer NewAvatarHeadVisemeSkinnedMeshRenderer;
+		private static SkinnedMeshRenderer NewAvatarHeadEyelidsSkinnedMeshRenderer;
 
-		private static GameObject[] NewCheekBoneGameObjects = new GameObject[0];
-		private static GameObject[] OldCheekBoneGameObjects = new GameObject[0];
+		private static GameObject[] NewCheekBoneGameObjects;
+		private static GameObject[] OldCheekBoneGameObjects;
 
-		private static GameObject[] NewFeetBoneGameObjects = new GameObject[0];
+		private static GameObject[] NewFeetBoneGameObjects;
 
-		private static SkinnedMeshRenderer[] OldAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
+		private static SkinnedMeshRenderer[] OldAvatarSkinnedMeshRenderers;
 
 		// 사전 데이터
 		private static List<HumanBodyBones> HumanBodyBoneList = GetHumanBoneList();
