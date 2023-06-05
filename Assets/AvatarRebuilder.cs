@@ -14,7 +14,7 @@ namespace com.vrsuya.avatarrebuilder {
 	[AddComponentMenu("VRSuya Avatar Rebuilder")]
 	public class AvatarRebuilder : MonoBehaviour {
 
-		// ¿¡µğÅÍ¿ë ¹ø¼ö
+		// ì—ë””í„°ìš© ë²ˆìˆ˜
 		public GameObject NewAvatarGameObjectEditor = null;
 		public GameObject OldAvatarGameObjectEditor = null;
 		public int TargetAvatarIndexEditor = 0;
@@ -25,7 +25,7 @@ namespace com.vrsuya.avatarrebuilder {
 		public bool ToggleReorderGameObjectEditor = true;
 		public string StatusStringEditor = "";
 
-		// Á¤Àû º¯¼ö
+		// ì •ì  ë³€ìˆ˜
 		protected static GameObject NewAvatarGameObject;
 		protected static Animator NewAvatarAnimator;
 		protected static GameObject OldAvatarGameObject;
@@ -49,7 +49,8 @@ namespace com.vrsuya.avatarrebuilder {
 
 		protected static string StatusString;
 
-        void OnEnable() {
+		// ì»´í¬ë„ŒíŠ¸ ìµœì´ˆ ë¡œë“œì‹œ ë™ì‘
+		void OnEnable() {
 			if (!OldAvatarGameObjectEditor) {
 				OldAvatarGameObjectEditor = this.gameObject;
             }
@@ -64,7 +65,7 @@ namespace com.vrsuya.avatarrebuilder {
             SetStaticVariable();
 		}
 
-		// ¿¡µğÅÍ º¯¼ö -> Á¤Àû º¯¼ö µ¿±âÈ­
+		/// <summary>ì—ë””í„° ë³€ìˆ˜ -> ì •ì  ë³€ìˆ˜ ë™ê¸°í™”í•©ë‹ˆë‹¤.</summary>
 		private void SetStaticVariable() {
 			NewAvatarGameObject = NewAvatarGameObjectEditor;
 			OldAvatarGameObject = OldAvatarGameObjectEditor;
@@ -75,7 +76,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// Á¤Àû º¯¼ö -> ¿¡µğÅÍ º¯¼ö µ¿±âÈ­
+		/// <summary>ì •ì  ë³€ìˆ˜ -> ì—ë””í„° ë³€ìˆ˜ ë™ê¸°í™”í•©ë‹ˆë‹¤.</summary>
 		private void SetEditorVariable() {
 			NewAvatarGameObjectEditor = NewAvatarGameObject;
 			OldAvatarGameObjectEditor = OldAvatarGameObject;
@@ -85,11 +86,10 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// ÆĞÄ¡ ´ë»ó SkinnedMeshRenderer ¸ñ·Ï ¾ò±â
+		/// <summary>íŒ¨ì¹˜ ëŒ€ìƒ SkinnedMeshRenderer ëª©ë¡ì„ ê°€ì ¸ì˜µë‹ˆë‹¤</summary>
 		public void UpdateSkinnedMeshRendererList() {
             SetStaticVariable();
 			ClearVariable();
-            ClearStatus();
 			if (VerifyVariable()) {
 				RecoveryAvatar.GetSkinnedMeshRenderers();
 				StatusString = "UPDATED_RENDERER";
@@ -98,29 +98,26 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
         }
 
-        /* ¾Æ¹ÙÅ¸ º¹±¸ ¸ŞÀÎ ÇÁ·Î¼¼½º */
-        public void ReplaceSkinnedMeshRendererGameObjects() {
+		/// <summary>
+		/// ë³¸ í”„ë¡œê·¸ë¨ì˜ ë©”ì¸ ì„¸íŒ… ë¡œì§ì…ë‹ˆë‹¤.
+		/// </summary>
+		public void ReplaceSkinnedMeshRendererGameObjects() {
             UpdateSkinnedMeshRendererList();
             RecoveryAvatar.Recovery();
+
 			Debug.Log("[VRSuya AvatarRebuilder] Update Completed");
             DestroyImmediate(this);
             return;
         }
 
-        // ÇÁ·Î±×·¥ »óÅÂ ÃÊ±âÈ­
-        private void ClearStatus() {
-			StatusStringEditor = "";
+		/// <summary>ì •ì  ë³€ìˆ˜ë¥¼ ì´ˆê¸°í™” í•©ë‹ˆë‹¤.</summary>
+		private void ClearVariable() {
+			NewAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
 			StatusString = "";
-            return;
+			return;
         }
 
-        // º¯¼ö ÃÊ±âÈ­
-        private void ClearVariable() {
-			NewAvatarSkinnedMeshRenderersEditor = new SkinnedMeshRenderer[0];
-            return;
-        }
-
-		// º¯¼ö °Ë»ç ¹× °ËÁõ
+		// ë³€ìˆ˜ ê²€ì‚¬ ë° ê²€ì¦
 		private bool VerifyVariable() {
 			if (!NewAvatarGameObject) {
 				StatusString = "NO_AVATAR";
