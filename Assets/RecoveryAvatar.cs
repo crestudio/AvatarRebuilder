@@ -32,6 +32,7 @@ namespace com.vrsuya.avatarrebuilder {
 		private static SkinnedMeshRenderer NewAvatarHeadVisemeSkinnedMeshRenderer;
 		private static SkinnedMeshRenderer NewAvatarHeadEyelidsSkinnedMeshRenderer;
 
+		private static BoneNameType TargetBoneType;
 		private static GameObject[] NewCheekBoneGameObjects;
 		private static GameObject[] OldCheekBoneGameObjects;
 
@@ -99,7 +100,7 @@ namespace com.vrsuya.avatarrebuilder {
 			GetArmatureTransforms();
 			GetCheekTransforms();
 			GetFeetTransforms();
-			if (TargetAvatar == AvatarType.Komado || TargetAvatar == AvatarType.Yoll) GetOldCheekBoneGameObjects();
+			if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) GetOldCheekBoneGameObjects();
 			RenameGameObjects();
 			UnpackPrefab();
 			if (ToggleReorderGameObject) ReorderGameObjects();
