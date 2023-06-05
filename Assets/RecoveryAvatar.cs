@@ -183,10 +183,10 @@ namespace com.vrsuya.avatarrebuilder {
 				OldVRCAvatarDescriptor = OldAvatarGameObject.GetComponent<VRCAvatarDescriptor>();
 				SkinnedMeshRenderer OldAvatarHeadVisemeSkinnedMeshRenderer = null;
 				SkinnedMeshRenderer OldAvatarHeadEyelidsSkinnedMeshRenderer = null;
-				if (!OldVRCAvatarDescriptor.VisemeSkinnedMesh) OldAvatarHeadVisemeSkinnedMeshRenderer = OldVRCAvatarDescriptor.VisemeSkinnedMesh;
-				if (!OldVRCAvatarDescriptor.customEyeLookSettings.eyelidsSkinnedMesh) OldAvatarHeadEyelidsSkinnedMeshRenderer = OldVRCAvatarDescriptor.customEyeLookSettings.eyelidsSkinnedMesh;
-				if (!OldAvatarHeadVisemeSkinnedMeshRenderer) NewAvatarHeadVisemeSkinnedMeshRenderer = Array.Find(NewAvatarSkinnedMeshRenderers, NewSkinnedMeshRenderer => OldAvatarHeadVisemeSkinnedMeshRenderer.gameObject.name == NewSkinnedMeshRenderer.gameObject.name);
-				if (!OldAvatarHeadEyelidsSkinnedMeshRenderer) NewAvatarHeadEyelidsSkinnedMeshRenderer = Array.Find(NewAvatarSkinnedMeshRenderers, NewSkinnedMeshRenderer => OldAvatarHeadEyelidsSkinnedMeshRenderer.gameObject.name == NewSkinnedMeshRenderer.gameObject.name);
+				if (OldVRCAvatarDescriptor.VisemeSkinnedMesh) OldAvatarHeadVisemeSkinnedMeshRenderer = OldVRCAvatarDescriptor.VisemeSkinnedMesh;
+				if (OldVRCAvatarDescriptor.customEyeLookSettings.eyelidsSkinnedMesh) OldAvatarHeadEyelidsSkinnedMeshRenderer = OldVRCAvatarDescriptor.customEyeLookSettings.eyelidsSkinnedMesh;
+				if (OldAvatarHeadVisemeSkinnedMeshRenderer) NewAvatarHeadVisemeSkinnedMeshRenderer = Array.Find(NewAvatarSkinnedMeshRenderers, NewSkinnedMeshRenderer => OldAvatarHeadVisemeSkinnedMeshRenderer.gameObject.name == NewSkinnedMeshRenderer.gameObject.name);
+				if (OldAvatarHeadEyelidsSkinnedMeshRenderer) NewAvatarHeadEyelidsSkinnedMeshRenderer = Array.Find(NewAvatarSkinnedMeshRenderers, NewSkinnedMeshRenderer => OldAvatarHeadEyelidsSkinnedMeshRenderer.gameObject.name == NewSkinnedMeshRenderer.gameObject.name);
 			}
 			return NewAvatarHeadVisemeSkinnedMeshRenderer;
 		}
