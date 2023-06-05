@@ -1,4 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+
+using UnityEditor;
 
 /*
  * VRSuya Reassign Bone In SkinnedMeshRenderer Editor for Mogumogu Project
@@ -10,9 +13,10 @@ namespace com.vrsuya.avatarrebuilder {
 
 	public class LanguageHelper : AvatarRebuilderEditor {
 
-		// 요청한 컨텍스트 문장을 언어 속성에 맞춰서 반환
+		/// <summary>요청한 값을 설정된 언어에 맞춰 값을 반환합니다.</summary>
+		/// <returns>요청한 String의 현재 설정된 언어 버전</returns>
 		internal static string GetContextString(string RequestContext) {
-			string ReturnContext = "";
+			string ReturnContext = RequestContext;
 			switch (LanguageIndex) {
 				case 0:
 					if (String_English.ContainsKey(RequestContext)) {
@@ -33,20 +37,21 @@ namespace com.vrsuya.avatarrebuilder {
 			return ReturnContext;
 		}
 
-		// 요청한 아바타를 언어 속성에 맞춰서 반환
-		internal static string[] GetAvatarString() {
-			switch (LanguageIndex) {
-				case 0:
-					AvatarType = String_Avatar_English;
-					break;
-				case 1:
-					AvatarType = String_Avatar_Korean;
-					break;
-				case 2:
-					AvatarType = String_Avatar_Japanese;
-					break;
+		/// <summary>요청한 아바타 이름을 설정된 언어에 맞춰 리스트를 재작성합니다.</summary>
+		/// <returns>아바타 이름의 현재 설정된 언어 버전</returns>
+		internal static string[] ReturnAvatarName(SerializedProperty AvatarNameListProperty) {
+			string[] ReturnAvatarList = new string[0];
+			string[] AvatarNameList = AvatarNameListProperty.enumNames;
+			AvatarRebuilder.Avatar[] InstalledVRSuyaProductAvatars = new AvatarRebuilder.Avatar[AvatarNameList.Length];
+			for (int Index = 0; Index < AvatarNameList.Length; Index++) {
+				InstalledVRSuyaProductAvatars[Index] = (AvatarRebuilder.Avatar)System.Enum.Parse(typeof(AvatarRebuilder.Avatar), AvatarNameList[Index]);
 			}
-			return AvatarType;
+			foreach (var AvatarName in InstalledVRSuyaProductAvatars) {
+				if (dictAvatarNames.ContainsKey(AvatarName)) {
+					ReturnAvatarList = ReturnAvatarList.Concat(new string[] { dictAvatarNames[AvatarName][LanguageIndex] }).ToArray();
+				}
+			}
+			return ReturnAvatarList;
 		}
 
 		// 영어 사전 데이터
@@ -77,10 +82,6 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "NO_OLD_ANIMATOR", "Not found Animator Component in the Original Avatar" }
 		};
 
-		private static readonly string[] String_Avatar_English = new string[] {
-			"Generic", "Komado's Avatars", "SELESTIA", "YOLL"
-		};
-
 		// 한국어 사전 데이터
 		private static readonly Dictionary<string, string> String_Korean = new Dictionary<string, string>() {
 			// UI 데이터
@@ -107,10 +108,6 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "NO_NEW_ANIMATOR", "새 아바타에서 애니메이터를 찾을 수 없습니다" },
 			{ "NO_ROOTBONE", "아바타에서 루트 본을 찾을 수 없습니다" },
 			{ "NO_OLD_ANIMATOR", "원본 아바타에서 애니메이터를 찾을 수 없습니다" }
-		};
-
-		private static readonly string[] String_Avatar_Korean = new string[] {
-			"일반", "코마도 아바타 종류", "셀레스티아", "요루"
 		};
 
 		// 일본어 사전 데이터
@@ -141,8 +138,16 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "NO_OLD_ANIMATOR", "元のアバターにアニメーターが見つかりません" }
 		};
 
-		private static readonly string[] String_Avatar_Japanese = new string[] {
-			"一般", "こまどアバターの種類", "セレスティア", "ヨル"
+		/// <summary>요청한 아바타 이름들을 설정된 언어에 맞춰 변환합니다.</summary>
+		/// <returns>요청한 아바타 이름들의 현재 설정된 언어 버전</returns>
+		private static readonly Dictionary<AvatarRebuilder.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarRebuilder.Avatar, string[]>() {
+			{ AvatarRebuilder.Avatar.NULL, new string[] { "General", "일반", "一般" } },
+			{ AvatarRebuilder.Avatar.Karin, new string[] { "Karin", "카린", "カリン" } },
+			{ AvatarRebuilder.Avatar.Milk, new string[] { "Milk(New)", "밀크(신)", "ミルク（新）" } },
+			{ AvatarRebuilder.Avatar.Mint, new string[] { "Mint", "민트", "ミント" } },
+			{ AvatarRebuilder.Avatar.Rusk, new string[] { "Rusk", "러스크", "ラスク" } },
+			{ AvatarRebuilder.Avatar.SELESTIA, new string[] { "SELESTIA", "셀레스티아", "セレスティア" } },
+			{ AvatarRebuilder.Avatar.Yoll, new string[] { "Yoll", "요루", "ヨル" } }
 		};
 	}
 }
