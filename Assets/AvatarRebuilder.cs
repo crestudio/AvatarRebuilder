@@ -14,7 +14,7 @@ namespace com.vrsuya.avatarrebuilder {
 	[AddComponentMenu("VRSuya Avatar Rebuilder")]
 	public class AvatarRebuilder : MonoBehaviour {
 
-		// 에디터용 번수
+		// 에디터용 변수
 		public GameObject NewAvatarGameObjectEditor = null;
 		public GameObject OldAvatarGameObjectEditor = null;
 		public int TargetAvatarIndexEditor = 0;
@@ -117,7 +117,8 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
         }
 
-		// 변수 검사 및 검증
+		/// <summary>아바타의 현재 상태를 검사하여 설치가 가능한지 확인합니다.</summary>
+		/// <returns>설치 가능 여부</returns>
 		private bool VerifyVariable() {
 			if (!NewAvatarGameObject) {
 				StatusString = "NO_AVATAR";

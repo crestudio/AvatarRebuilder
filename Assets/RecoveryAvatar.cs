@@ -61,7 +61,6 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "LittleToe1_R", "LittleToe2_R", "LittleToe3_R" }
 		};
 
-		/* 아바타 복구 메인 프로세스 */
 		/// <summary>신규 아바타와 기존 아바타와 비교하여 패치해야 되는 SkinnedMeshRender 목록을 반환합니다.</summary>
 		/// <returns>패치 적용 대상인 SkinnedMeshRenderer 배열</returns>
 		internal static SkinnedMeshRenderer[] GetSkinnedMeshRenderers() {
@@ -94,6 +93,9 @@ namespace com.vrsuya.avatarrebuilder {
 			return NewAvatarSkinnedMeshRenderers;
 		}
 
+		/// <summary>
+		/// 본 프로그램의 메인 세팅 로직입니다.
+		/// </summary>
 		internal static void Recovery() {
 			GetHeadSkinnedMeshRenderers();
 			ResizeNewAvatarTransform();
@@ -120,12 +122,13 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// HumanBodyBones 목록화
+		/// <summary>HumanBodyBones의 하위 본 목록들을 반환합니다.</summary>
+		/// <returns>HumanBodyBones 목록</returns>
 		private static List<HumanBodyBones> GetHumanBoneList() {
 			return Enum.GetValues(typeof(HumanBodyBones)).Cast<HumanBodyBones>().ToList();
 		}
 
-		// 각 아바타의 Armature 목록 얻기
+		/// <summary>각 아바타의 Armature Transform 배열을 찾습니다.</summary>
 		private static void GetArmatureTransforms() {
 			Transform[] NewAvatarTransforms = NewAvatarGameObject.GetComponentsInChildren<Transform>(true);
 			Transform[] OldAvatarTransforms = OldAvatarGameObject.GetComponentsInChildren<Transform>(true);
@@ -134,7 +137,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타에서 루트 볼 본 목록 얻기
+		/// <summary>신규 아바타에서 루트 볼 본 목록 얻습니다.</summary>
 		private static void GetCheekTransforms() {
 			if (TargetAvatar != AvatarType.SELESTIA) {
 				string[] CheekBoneNames = dictCheekBoneNames[TargetAvatar].Take(2).ToArray();
@@ -143,14 +146,15 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타에서 루트 발가락 본 목록 얻기
+		/// <summary>신규 아바타에서 루트 발가락 본 목록 얻습니다.</summary>
 		private static void GetFeetTransforms() {
 			string[] FeetRootBoneNames = Enumerable.Range(0, dictToeNames.GetLength(0)).Select(x => dictToeNames[x, 0]).ToArray();
 			NewFeetBoneGameObjects = Array.FindAll(NewArmatureTransforms, ArmatureTransform => Array.Exists(FeetRootBoneNames, BoneName => ArmatureTransform.gameObject.name == BoneName) == true).Select(Transform => Transform.gameObject).ToArray();
 			return;
 		}
 
-		// VRC AvatarDescriptor 작업에 필요한 SkinnedMeshRenderer 구하는 함수 
+		/// <summary>VRC AvatarDescriptor 작업에 필요한 SkinnedMeshRenderer 구합니다.</summary>
+		/// <returns>AvatarDescriptor에 들어갈 대표 SkinnedMeshRenderer</returns>
 		private static SkinnedMeshRenderer GetHeadSkinnedMeshRenderers() {
 			if (OldAvatarGameObject.GetComponent<VRCAvatarDescriptor>()) {
 				OldVRCAvatarDescriptor = OldAvatarGameObject.GetComponent<VRCAvatarDescriptor>();
@@ -164,7 +168,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return NewAvatarHeadVisemeSkinnedMeshRenderer;
 		}
 
-		// EYO 및 IMERIS 헤어 관련 버그 문제 해결
+		/// <summary>EYO 및 IMERIS 헤어 관련 버그 문제 해결하기 위해 GameObject 이름을 변경합니다.</summary>
 		private static void RenameGameObjects() {
 			foreach (Transform TargetTransform in NewArmatureTransforms) {
 				switch (TargetTransform.name) {
@@ -179,7 +183,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// GameObject Prefab 풀기
+		/// <summary>GameObject Prefab을 일반 GameObject로 변경합니다.</summary>
 		private static void UnpackPrefab() {
 			for (int Try = 0; Try < 5; Try++) {
 				if (PrefabUtility.GetPrefabAssetType(NewAvatarGameObject) == PrefabAssetType.NotAPrefab) {
@@ -198,7 +202,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타의 월드 Transform 및 로컬 Transform 수정
+		/// <summary>신규 아바타의 Transform을 기존 아바타의 Transform에 맞게 변형합니다.</summary>
 		private static void ResizeNewAvatarTransform() {
 			NewAvatarGameObject.transform.SetPositionAndRotation(OldAvatarGameObject.transform.position, OldAvatarGameObject.transform.rotation);
 			NewAvatarGameObject.transform.localPosition = OldAvatarGameObject.transform.localPosition;
@@ -207,14 +211,15 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 기존에 이미 존재하는 아바타 루트 볼 본 목록 얻기
+		/// <summary>기존에 이미 존재하는 아바타 루트 볼 본 목록을 얻습니다.</summary>
+		/// <returns>기존 존재하는 아바타 루트 볼 본 배열</returns>
 		private static GameObject[] GetOldCheekBoneGameObjects() {
 			string[] CheekBoneNames = dictCheekBoneNames[TargetAvatar].Take(2).ToArray();
 			OldCheekBoneGameObjects = Array.FindAll(OldArmatureTransforms, OldTransform => Array.Exists(CheekBoneNames, BoneName => OldTransform.gameObject.name == BoneName) == true).Select(Item => Item.gameObject).ToArray();
 			return OldCheekBoneGameObjects;
 		}
 
-		// 신규 아바타로 기존 Armature의 Transform 값 복사
+		/// <summary>신규 아바타로 기존 Armature의 Transform 값 복사합니다.</summary>
 		private static void RetransformNewAvatarArmatureTransforms() {
 			for (int NewIndex = 0; NewIndex < NewArmatureTransforms.Length; NewIndex++) {
 				for (int OldIndex = 0; OldIndex < OldArmatureTransforms.Length; OldIndex++) {
@@ -243,7 +248,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타에 GameObject 및 SkinnedMeshRenderer 데이터 복사
+		/// <summary>신규 아바타에 GameObject 및 SkinnedMeshRenderer 데이터 복사합니다.</summary>
 		private static void CopyGameObjectSettings() {
 			for (int Index = 0; Index < NewAvatarSkinnedMeshRenderers.Length; Index++) {
 				// GameObject
@@ -281,7 +286,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// Blendshape 리스트 목록 작성 및 신규 아바타로 Blendshape 수치 복사
+		/// <summary>Blendshape 리스트 목록 작성 및 신규 아바타로 Blendshape 수치 복사합니다.</summary>
 		private static void CopyBlendshapeSettings() {
 			for (int Index = 0; Index < NewAvatarSkinnedMeshRenderers.Length; Index++) {
 				Mesh NewAvatarMesh = NewAvatarSkinnedMeshRenderers[Index].sharedMesh;
@@ -310,7 +315,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타의 SkinnedMeshRenderer의 본 데이터를 기존 Armature 본에 맞춰 이전 작업
+		/// <summary>신규 아바타의 SkinnedMeshRenderer의 본 데이터를 기존 Armature 본에 맞춰 이전 작업합니다.</summary>
 		private static void ReplaceSkinnedMeshRendererBoneSettings() {
 			foreach (SkinnedMeshRenderer NewSkinnedMeshRenderer in NewAvatarSkinnedMeshRenderers) {
 				Transform[] ChildBones = NewSkinnedMeshRenderer.bones;
@@ -345,7 +350,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타에 GameObject 활성화 상태 복사
+		/// <summary>신규 아바타에 GameObject 활성화 상태를 복사합니다.</summary>
 		private static void CopyGameObjectActive() {
 			for (int Index = 0; Index < NewAvatarGameObjects.Length; Index++) {
 				NewAvatarGameObjects[Index].SetActive(OldAvatarGameObjects[Index].activeSelf);
@@ -353,7 +358,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// Armature에 존재하는 GameObject 순서를 최상단으로 올리기
+		/// <summary>Armature에 존재하는 GameObject를 해당 하이어라키에서 순서를 최상단으로 올립니다.</summary>
 		private static void ReorderGameObjects() {
 			string[] NewArmatureTransformNames = NewArmatureTransforms.Select(NewTransform => NewTransform.name).ToArray();
 			for (int Index = OldArmatureTransforms.Length - 1; Index >= 0; Index--) {
@@ -369,7 +374,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타의 GameObject를 기존 아바타로 이전 및 동일한 순서로 편성 
+		/// <summary>신규 아바타의 GameObject를 기존 아바타로 이전 및 동일한 순서로 편성합니다.</summary> 
 		private static void MoveGameObjects() {
 			for (int Index = 0; Index < NewAvatarGameObjects.Length; Index++) {
 				NewAvatarGameObjects[Index].transform.SetParent(OldAvatarGameObjects[Index].transform.parent, false);
@@ -378,7 +383,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타의 볼 본 GameObject를 기존 아바타로 이동
+		/// <summary>신규 아바타의 볼 본 GameObject를 기존 아바타로 이동합니다.</summary>
 		private static void MoveCheekBoneGameObjects() {
 			if (NewCheekBoneGameObjects.Length > 0) {
 				foreach (GameObject CheekBoneGameObject in NewCheekBoneGameObjects) {
@@ -388,7 +393,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 신규 아바타의 발가락 본 GameObject를 기존 아바타로 이동
+		/// <summary>신규 아바타의 발가락 본 GameObject를 기존 아바타로 이동합니다.</summary>
 		private static void MoveFeetBoneGameObjects() {
 			if (NewFeetBoneGameObjects.Length > 0) {
 				Transform LeftFoot = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.LeftFoot);
@@ -414,7 +419,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// 작업 완료 후 불필요한 GameObject 삭제
+		/// <summary>작업 완료 후 불필요한 GameObject 삭제합니다.</summary>
 		private static void DeleteGameObjects() {
 			if (TargetAvatar == AvatarType.Komado || TargetAvatar == AvatarType.Yoll) {
 				if (OldCheekBoneGameObjects.Length > 0) {
@@ -432,7 +437,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		// VRCAvatarDescriptor 컴포넌트에 새로운 아바타 메쉬 업데이트
+		/// <summary>VRCAvatarDescriptor 컴포넌트에 새로운 스킨드 메쉬로 업데이트합니다.</summary>
 		private static void UpdateVRCAvatarDescriptor() {
 			if (OldVRCAvatarDescriptor) {
 				if (NewAvatarHeadVisemeSkinnedMeshRenderer) {
