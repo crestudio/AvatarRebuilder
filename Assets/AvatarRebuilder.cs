@@ -125,12 +125,19 @@ namespace com.vrsuya.avatarrebuilder {
 				StatusString = "SAME_OBJECT";
 				return false;
 			}
-			if (!NewAvatarGameObject.GetComponent<Animator>()) {
+			NewAvatarGameObject.TryGetComponent(typeof(Animator), out Component NewAnimator);
+			if (!NewAnimator) {
 				StatusString = "NO_NEW_ANIMATOR";
 				return false;
+			} else {
+				NewAvatarAnimator = NewAvatarGameObject.GetComponent<Animator>();
 			}
 			if (!AvatarRootBone) {
-				if (OldAvatarGameObject.GetComponent<Animator>()) {
+				OldAvatarGameObject.TryGetComponent(typeof(Animator), out Component OldAnimator);
+				if (!OldAnimator) {
+					StatusString = "NO_OLD_ANIMATOR";
+					return false;
+				} else {
 					OldAvatarAnimator = OldAvatarGameObject.GetComponent<Animator>();
 					if (OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips)) {
 						AvatarRootBone = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips);
@@ -138,9 +145,6 @@ namespace com.vrsuya.avatarrebuilder {
 						StatusString = "NO_ROOTBONE";
 						return false;
 					}
-				} else {
-					StatusString = "NO_OLD_ANIMATOR";
-					return false;
 				}
 			}
 			return true;
