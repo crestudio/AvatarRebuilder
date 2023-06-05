@@ -8,7 +8,7 @@ using UnityEngine;
  * Thanks to Dalgona. & C_Carrot & Naru & Rekorn
  */
 
-namespace VRSuya.AvatarRebuilder {
+namespace com.vrsuya.avatarrebuilder {
 
     [ExecuteInEditMode]
 	[AddComponentMenu("VRSuya Avatar Rebuilder")]

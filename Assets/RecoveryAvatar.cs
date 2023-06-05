@@ -15,7 +15,7 @@ using VRC.SDK3.Avatars.Components;
  * Thanks to Dalgona. & C_Carrot & Naru & Rekorn
  */
 
-namespace VRSuya.AvatarRebuilder {
+namespace com.vrsuya.avatarrebuilder {
 
 	[ExecuteInEditMode]
 	[AddComponentMenu("")]

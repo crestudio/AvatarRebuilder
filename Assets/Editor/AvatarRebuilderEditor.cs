@@ -7,7 +7,7 @@ using UnityEditor;
  * Thanks to Dalgona. & C_Carrot & Naru & Rekorn
  */
 
-namespace VRSuya.AvatarRebuilder {
+namespace com.vrsuya.avatarrebuilder {
 
     [CustomEditor(typeof(AvatarRebuilder))]
     public class AvatarRebuilderEditor : Editor {
