@@ -21,10 +21,10 @@ namespace com.vrsuya.avatarrebuilder {
         SerializedProperty SerializedToggleResetRestPose;
         SerializedProperty SerializedToggleReorderGameObject;
 
-        SerializedProperty SerializedStatusString;
 
         public static string[] AvatarType = new string[0];
         public static int AvatarTypeIndex = 0;
+		SerializedProperty SerializedStatusString;
 
 		public static int LanguageIndex = 0;
         public static readonly string[] LanguageType = new[] { "English", "한국어", "日本語" };
@@ -39,7 +39,7 @@ namespace com.vrsuya.avatarrebuilder {
             SerializedToggleResetRestPose = serializedObject.FindProperty("ToggleResetRestPoseEditor");
             SerializedToggleReorderGameObject = serializedObject.FindProperty("ToggleReorderGameObjectEditor");
 
-            SerializedStatusString = serializedObject.FindProperty("StatusString");
+			SerializedStatusString = serializedObject.FindProperty("StatusStringEditor");
         }
 
         public override void OnInspectorGUI() {
@@ -66,9 +66,9 @@ namespace com.vrsuya.avatarrebuilder {
             if (GUILayout.Button(LanguageHelper.GetContextString("String_ImportSkinnedMeshRenderer"))) {
                 (target as AvatarRebuilder).UpdateSkinnedMeshRendererList();
             }
-			if (SerializedStatusString.stringValue != "") {
-                EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusString.stringValue), MessageType.Info);
-            }
+			if (!string.IsNullOrEmpty(SerializedStatusString.stringValue)) {
+				EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusString.stringValue), MessageType.Warning);
+			}
 			serializedObject.ApplyModifiedProperties();
             EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
             EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_Warning"), MessageType.Warning);
