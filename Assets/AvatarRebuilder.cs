@@ -23,6 +23,7 @@ namespace com.vrsuya.avatarrebuilder {
 		public bool ToggleRestoreArmatureTransformEditor = true;
 		public bool ToggleResetRestPoseEditor = false;
 		public bool ToggleReorderGameObjectEditor = true;
+		public string StatusStringEditor = "";
 
 		// 정적 변수
 		protected static GameObject NewAvatarGameObject;
@@ -44,7 +45,7 @@ namespace com.vrsuya.avatarrebuilder {
 		protected static bool ToggleResetRestPose;
 		protected static bool ToggleReorderGameObject;
 
-		public string StatusString;
+		protected static string StatusString;
 
         void OnEnable() {
 			if (!OldAvatarGameObjectEditor) {
@@ -78,6 +79,7 @@ namespace com.vrsuya.avatarrebuilder {
 			OldAvatarGameObjectEditor = OldAvatarGameObject;
 			NewAvatarSkinnedMeshRenderersEditor = NewAvatarSkinnedMeshRenderers;
 			AvatarRootBoneEditor = AvatarRootBone;
+			StatusStringEditor = StatusString;
 			return;
 		}
 
@@ -105,7 +107,8 @@ namespace com.vrsuya.avatarrebuilder {
 
         // 프로그램 상태 초기화
         private void ClearStatus() {
-            StatusString = "";
+			StatusStringEditor = "";
+			StatusString = "";
             return;
         }
 
