@@ -32,13 +32,10 @@ namespace com.vrsuya.avatarrebuilder {
 		protected static Animator OldAvatarAnimator;
 		protected static SkinnedMeshRenderer[] NewAvatarSkinnedMeshRenderers;
 
-		protected static AvatarType TargetAvatar;
-        protected enum AvatarType {
-			Generic,
-			Komado,
-			SELESTIA,
-			Yoll
-		};
+		protected static Avatar TargetAvatar;
+		public enum Avatar {
+			Karin, Milk, Mint, Rusk, SELESTIA, Yoll, NULL
+		}
 
 		protected static Transform AvatarRootBone;
 		protected static bool ToggleRestoreArmatureTransform;
@@ -66,7 +63,7 @@ namespace com.vrsuya.avatarrebuilder {
 		private void SetStaticVariable() {
 			NewAvatarGameObject = NewAvatarGameObjectEditor;
 			OldAvatarGameObject = OldAvatarGameObjectEditor;
-			TargetAvatar = (AvatarType)TargetAvatarIndexEditor;
+			TargetAvatar = (Avatar)TargetAvatarIndexEditor;
 			NewAvatarSkinnedMeshRenderers = NewAvatarSkinnedMeshRenderersEditor;
 			AvatarRootBone = AvatarRootBoneEditor;
             ToggleRestoreArmatureTransform = ToggleRestoreArmatureTransformEditor;
