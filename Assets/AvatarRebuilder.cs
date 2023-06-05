@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /*
- * VRSuya Reassign Bone In SkinnedMeshRenderer for Mogumogu Project
+ * VRSuya AvatarRebuilder
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  * Forked from emilianavt/ReassignBoneWeigthsToNewMesh.cs ( https://gist.github.com/emilianavt/721cd4dd2d4a62ba54b002b63f894dbf )
  * Thanks to Dalgona. & C_Carrot & Naru & Rekorn

@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEditor;
 
 /*
- * VRSuya Reassign Bone In SkinnedMeshRenderer Editor for Mogumogu Project
+ * VRSuya AvatarRebuilder
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
  * Thanks to Dalgona. & C_Carrot & Naru & Rekorn
  */
