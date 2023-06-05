@@ -61,6 +61,38 @@ namespace com.vrsuya.avatarrebuilder {
 		};
 
 		/* 아바타 복구 메인 프로세스 */
+		/// <summary>신규 아바타와 기존 아바타와 비교하여 패치해야 되는 SkinnedMeshRender 목록을 반환합니다.</summary>
+		/// <returns>패치 적용 대상인 SkinnedMeshRenderer 배열</returns>
+		internal static SkinnedMeshRenderer[] GetSkinnedMeshRenderers() {
+			SkinnedMeshRenderer[] AllNewAvatarSkinnedMeshRenderers = NewAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+			SkinnedMeshRenderer[] AllOldAvatarSkinnedMeshRenderers = OldAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+
+			NewAvatarGameObjects = new GameObject[AllNewAvatarSkinnedMeshRenderers.Length];
+			OldAvatarGameObjects = new GameObject[AllOldAvatarSkinnedMeshRenderers.Length];
+
+			NewAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[AllNewAvatarSkinnedMeshRenderers.Length];
+			OldAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[AllOldAvatarSkinnedMeshRenderers.Length];
+
+			int Index = 0;
+			foreach (SkinnedMeshRenderer NewSkinnedMeshRenderer in AllNewAvatarSkinnedMeshRenderers) {
+				foreach (SkinnedMeshRenderer OldSkinnedMeshRenderer in AllOldAvatarSkinnedMeshRenderers) {
+					if (NewSkinnedMeshRenderer.name == OldSkinnedMeshRenderer.name) {
+						OldAvatarSkinnedMeshRenderers[Index] = OldSkinnedMeshRenderer;
+						NewAvatarSkinnedMeshRenderers[Index] = NewSkinnedMeshRenderer;
+						OldAvatarGameObjects[Index] = OldSkinnedMeshRenderer.gameObject;
+						NewAvatarGameObjects[Index] = NewSkinnedMeshRenderer.gameObject;
+						Index++;
+						break;
+					}
+				}
+			}
+			Array.Resize(ref NewAvatarSkinnedMeshRenderers, Index);
+			Array.Resize(ref OldAvatarSkinnedMeshRenderers, Index);
+			Array.Resize(ref NewAvatarGameObjects, Index);
+			Array.Resize(ref OldAvatarGameObjects, Index);
+			return NewAvatarSkinnedMeshRenderers;
+		}
+
 		internal static void Recovery() {
 			GetTargetAvatarAnimator(NewAvatarGameObject, NewAvatarAnimator);
 			GetTargetAvatarAnimator(OldAvatarGameObject, OldAvatarAnimator);
@@ -117,37 +149,6 @@ namespace com.vrsuya.avatarrebuilder {
 			string[] FeetRootBoneNames = Enumerable.Range(0, dictToeNames.GetLength(0)).Select(x => dictToeNames[x, 0]).ToArray();
 			NewFeetBoneGameObjects = Array.FindAll(NewArmatureTransforms, ArmatureTransform => Array.Exists(FeetRootBoneNames, BoneName => ArmatureTransform.gameObject.name == BoneName) == true).Select(Transform => Transform.gameObject).ToArray();
 			return;
-		}
-
-		// 패치 적용 대상인 SkinnedMeshRenderer 목록 얻기
-		internal static SkinnedMeshRenderer[] GetSkinnedMeshRenderers() {
-			SkinnedMeshRenderer[] AllNewAvatarSkinnedMeshRenderers = NewAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-			SkinnedMeshRenderer[] AllOldAvatarSkinnedMeshRenderers = OldAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-
-			NewAvatarGameObjects = new GameObject[AllNewAvatarSkinnedMeshRenderers.Length];
-			OldAvatarGameObjects = new GameObject[AllOldAvatarSkinnedMeshRenderers.Length];
-
-			NewAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[AllNewAvatarSkinnedMeshRenderers.Length];
-			OldAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[AllOldAvatarSkinnedMeshRenderers.Length];
-
-			int Index = 0;
-			foreach (SkinnedMeshRenderer NewSkinnedMeshRenderer in AllNewAvatarSkinnedMeshRenderers) {
-				foreach (SkinnedMeshRenderer OldSkinnedMeshRenderer in AllOldAvatarSkinnedMeshRenderers) {
-					if (NewSkinnedMeshRenderer.name == OldSkinnedMeshRenderer.name) {
-						OldAvatarSkinnedMeshRenderers[Index] = OldSkinnedMeshRenderer;
-						NewAvatarSkinnedMeshRenderers[Index] = NewSkinnedMeshRenderer;
-						OldAvatarGameObjects[Index] = OldSkinnedMeshRenderer.gameObject;
-						NewAvatarGameObjects[Index] = NewSkinnedMeshRenderer.gameObject;
-						Index++;
-						break;
-					}
-				}
-			}
-			Array.Resize(ref NewAvatarSkinnedMeshRenderers, Index);
-			Array.Resize(ref OldAvatarSkinnedMeshRenderers, Index);
-			Array.Resize(ref NewAvatarGameObjects, Index);
-			Array.Resize(ref OldAvatarGameObjects, Index);
-			return NewAvatarSkinnedMeshRenderers;
 		}
 
 		// VRC AvatarDescriptor 작업에 필요한 SkinnedMeshRenderer 구하는 함수 
