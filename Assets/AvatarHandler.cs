@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 /*
@@ -28,6 +29,19 @@ namespace com.vrsuya.avatarrebuilder {
 				case AvatarStatus.Patched:
 					break;
 			}
+			return;
+		}
+
+		internal static void CreateDuplicateAvatar() {
+			Undo.RecordObject(OldAvatarGameObject, "Duplicated Old Avatar");
+			GameObject DuplicatedAvatar = Instantiate(OldAvatarGameObject);
+			Undo.RegisterCreatedObjectUndo(DuplicatedAvatar, "Duplicated Old Avatar");
+			DuplicatedAvatar.name = OldAvatarGameObject.name;
+			OldAvatarGameObject.name = DuplicatedAvatar.name + "(Backup)";
+			OldAvatarGameObject.SetActive(false);
+			Undo.CollapseUndoOperations(UndoGroupIndex);
+
+			OldAvatarGameObject = DuplicatedAvatar;
 			return;
 		}
 
