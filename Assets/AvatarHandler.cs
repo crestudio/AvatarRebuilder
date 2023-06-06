@@ -21,7 +21,8 @@ namespace com.vrsuya.avatarrebuilder {
 		internal static void RequestCheckNewAvatar() {
 			if (!IsSameFBX()) {
 				if(!IsExistNewAvatarInScene()) {
-					Debug.Log("Create New Avatar into Scene");
+					ApplyNewAvatarFBXModel();
+					PlaceGameObejctInScene();
 				}
 			}
 			return;
@@ -59,6 +60,26 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
 		private static bool IsExistNewAvatarInScene() {
 			return NewAvatarGameObject.scene.IsValid();
+		}
+
+		/// <summary>기존 아바타의 FBX 메타 데이터를 복제하여, 새 아바타의 FBX 메타 데이터에 적용 합니다.</summary>
+		private static void ApplyNewAvatarFBXModel() {
+			UnityEngine.Avatar OldAnimatorAvatar = OldAvatarAnimator.avatar;
+			UnityEngine.Avatar NewAnimatorAvatar = NewAvatarAnimator.avatar;
+			string OldAvatarAssetPath = AssetDatabase.GetAssetPath(OldAnimatorAvatar);
+			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAnimatorAvatar);
+			ModelImporter OldAvatarModelImporter = AssetImporter.GetAtPath(OldAvatarAssetPath) as ModelImporter;
+			ModelImporter NewAvatarModelImporter = AssetImporter.GetAtPath(NewAvatarAssetPath) as ModelImporter;
+			AssetDatabase.ImportAsset(NewAvatarAssetPath);
+		}
+
+		/// <summary>새 아바타 GameObject를 Scene에 배치를 합니다.</summary>
+		private static void PlaceGameObejctInScene() {
+			GameObject NewInstance = (GameObject)PrefabUtility.InstantiatePrefab(NewAvatarGameObject);
+			Debug.Log("Done");
+			Undo.RegisterCreatedObjectUndo(NewInstance, "Added New GameObject");
+			Undo.CollapseUndoOperations(UndoGroupIndex);
+			return;
 		}
 	}
 }
