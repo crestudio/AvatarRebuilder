@@ -27,6 +27,7 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
+		/// <summary>기존 아바타를 복제하여 백업본을 생성합니다.</summary>
 		internal static void CreateDuplicateAvatar() {
 			Undo.RecordObject(OldAvatarGameObject, "Duplicated Old Avatar");
 			GameObject DuplicatedAvatar = Instantiate(OldAvatarGameObject);
@@ -42,6 +43,8 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
+		/// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
+		/// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
 		private static bool IsSameFBX() {
 			bool Result = false;
 			UnityEngine.Avatar OldAnimatorAvatar = OldAvatarAnimator.avatar;
@@ -52,6 +55,8 @@ namespace com.vrsuya.avatarrebuilder {
 			return Result;
 		}
 
+		/// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
+		/// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
 		private static bool IsExistNewAvatarInScene() {
 			return NewAvatarGameObject.scene.IsValid();
 		}
