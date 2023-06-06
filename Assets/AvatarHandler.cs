@@ -19,6 +19,10 @@ namespace com.vrsuya.avatarrebuilder {
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
 		internal static void RequestCheckNewAvatar() {
+			if (!IsSameFBX()) {
+				if(!IsExistNewAvatarInScene()) {
+					Debug.Log("Create New Avatar into Scene");
+				}
 			}
 			return;
 		}
@@ -46,6 +50,10 @@ namespace com.vrsuya.avatarrebuilder {
 			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAnimatorAvatar);
 			if (OldAvatarAssetPath == NewAvatarAssetPath) Result = true;
 			return Result;
+		}
+
+		private static bool IsExistNewAvatarInScene() {
+			return NewAvatarGameObject.scene.IsValid();
 		}
 	}
 }
