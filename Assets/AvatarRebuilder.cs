@@ -173,6 +173,9 @@ namespace com.vrsuya.avatarrebuilder {
 
 		public void DebugMethod() {
 			SetStaticVariable();
+			if (VerifyVariable()) {
+				AvatarHandler.RequestCheckNewAvatar();
+			}
 			return;
 		}
     }
