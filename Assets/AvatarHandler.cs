@@ -15,19 +15,10 @@ namespace com.vrsuya.avatarrebuilder {
 	[AddComponentMenu("")]
 	public class AvatarHandler : AvatarRebuilder {
 
-		private enum AvatarStatus {
-			Patched, NeedPatch
-		}
-
 		/// <summary>
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
 		internal static void RequestCheckNewAvatar() {
-			switch (CheckNewAvatarStatus()) {
-				case AvatarStatus.NeedPatch:
-					break;
-				case AvatarStatus.Patched:
-					break;
 			}
 			return;
 		}
@@ -45,8 +36,8 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		private static AvatarStatus CheckNewAvatarStatus() {
-			AvatarStatus Result = AvatarStatus.NeedPatch;
+		private static bool IsSameFBX() {
+			bool Result = false;
 			return Result;
 		}
 	}
