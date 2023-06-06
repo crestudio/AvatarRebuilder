@@ -2,6 +2,7 @@
 using System;
 using System.Linq;
 
+using UnityEditor;
 using UnityEngine;
 
 /*
@@ -52,6 +53,7 @@ namespace com.vrsuya.avatarrebuilder {
 		protected static bool ToggleReorderGameObject;
 
 		protected static string StatusString;
+		protected static int UndoGroupIndex;
 
 		// 컴포넌트 최초 로드시 동작
 		void OnEnable() {
@@ -115,6 +117,8 @@ namespace com.vrsuya.avatarrebuilder {
 
 			Debug.Log("[VRSuya AvatarRebuilder] Update Completed");
             DestroyImmediate(this);
+			Undo.IncrementCurrentGroup();
+			Undo.SetCurrentGroupName("VRSuya Avatar Rebuilder");
             return;
         }
 
