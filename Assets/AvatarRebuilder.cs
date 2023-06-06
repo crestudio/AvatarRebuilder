@@ -112,13 +112,19 @@ namespace com.vrsuya.avatarrebuilder {
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
 		public void ReplaceSkinnedMeshRendererGameObjects() {
-            UpdateSkinnedMeshRendererList();
-            RecoveryAvatar.Recovery();
-
-			Debug.Log("[VRSuya AvatarRebuilder] Update Completed");
-            DestroyImmediate(this);
 			Undo.IncrementCurrentGroup();
 			Undo.SetCurrentGroupName("VRSuya Avatar Rebuilder");
+			SetStaticVariable();
+			ClearVariable();
+			if (VerifyVariable()) {
+				AvatarHandler.CreateDuplicateAvatar();
+				AvatarHandler.RequestCheckNewAvatar();
+				RecoveryAvatar.GetSkinnedMeshRenderers();
+				RecoveryAvatar.Recovery();
+				Debug.Log("[VRSuya AvatarRebuilder] Update Completed");
+				DestroyImmediate(this);
+			}
+			SetEditorVariable();
             return;
         }
 
