@@ -78,6 +78,9 @@ namespace com.vrsuya.avatarrebuilder {
             if (GUILayout.Button(LanguageHelper.GetContextString("String_ReplaceAvatar"))) {
                 (target as AvatarRebuilder).ReplaceSkinnedMeshRendererGameObjects();
             }
-        }
+			if (GUILayout.Button("Debug")) {
+				(target as AvatarRebuilder).DebugMethod();
+			}
+		}
     }
 }

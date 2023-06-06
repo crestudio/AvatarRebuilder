@@ -170,6 +170,11 @@ namespace com.vrsuya.avatarrebuilder {
 			}
 			return true;
         }
+
+		public void DebugMethod() {
+			SetStaticVariable();
+			return;
+		}
     }
 }
 #endif
