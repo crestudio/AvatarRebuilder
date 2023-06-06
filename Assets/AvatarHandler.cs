@@ -33,6 +33,8 @@ namespace com.vrsuya.avatarrebuilder {
 			Undo.CollapseUndoOperations(UndoGroupIndex);
 
 			OldAvatarGameObject = DuplicatedAvatar;
+			OldAvatarAnimator = OldAvatarGameObject.GetComponent<Animator>();
+			AvatarRootBone = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips);
 			return;
 		}
 
