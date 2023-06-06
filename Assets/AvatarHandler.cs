@@ -40,6 +40,11 @@ namespace com.vrsuya.avatarrebuilder {
 
 		private static bool IsSameFBX() {
 			bool Result = false;
+			UnityEngine.Avatar OldAnimatorAvatar = OldAvatarAnimator.avatar;
+			UnityEngine.Avatar NewAnimatorAvatar = NewAvatarAnimator.avatar;
+			string OldAvatarAssetPath = AssetDatabase.GetAssetPath(OldAnimatorAvatar);
+			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAnimatorAvatar);
+			if (OldAvatarAssetPath == NewAvatarAssetPath) Result = true;
 			return Result;
 		}
 	}
