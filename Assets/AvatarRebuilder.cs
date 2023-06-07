@@ -116,6 +116,7 @@ namespace com.vrsuya.avatarrebuilder {
 			Undo.SetCurrentGroupName("VRSuya Avatar Rebuilder");
 			SetStaticVariable();
 			ClearVariable();
+			AvatarHandler.CheckExistNewAvatarInScene();
 			if (VerifyVariable()) {
 				AvatarHandler.CreateDuplicateAvatar();
 				AvatarHandler.RequestCheckNewAvatar();

@@ -61,8 +61,12 @@ namespace com.vrsuya.avatarrebuilder {
 
 		/// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
 		/// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
-		private static bool IsExistNewAvatarInScene() {
-			return NewAvatarGameObject.scene.IsValid();
+		internal static void CheckExistNewAvatarInScene() {
+			if (!NewAvatarGameObject.scene.IsValid()) {
+				ApplyNewAvatarFBXModel();
+				PlaceGameObejctInScene();
+			}
+			return;
 		}
 
 		/// <summary>기존 아바타의 FBX 메타 데이터를 복제하여, 새 아바타의 FBX 메타 데이터에 적용 합니다.</summary>
