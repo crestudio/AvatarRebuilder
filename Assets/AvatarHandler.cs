@@ -134,8 +134,9 @@ namespace com.vrsuya.avatarrebuilder {
 			NewAvatarModelImporter.useSRGBMaterialColor = OldAvatarModelImporter.useSRGBMaterialColor;
 			NewAvatarModelImporter.weldVertices = OldAvatarModelImporter.weldVertices;
 			CheckLegacyBlendShapeNormals(OldAvatarModelImporter, NewAvatarModelImporter);
-			Material[] OldAvatarMaterials = CheckOldAvatarMaterials(OldAvatarModelImporter);
+			CheckAvatarMaterials(OldAvatarModelImporter, NewAvatarModelImporter);
 			EditorUtility.SetDirty(NewAvatarModelImporter);
+			AssetDatabase.WriteImportSettingsIfDirty(NewAvatarAssetPath);
 			NewAvatarModelImporter.SaveAndReimport();
 			Undo.CollapseUndoOperations(UndoGroupIndex);
 		}
@@ -151,15 +152,21 @@ namespace com.vrsuya.avatarrebuilder {
 		}
 
 		/// <summary>기존 아바타에서 지정된 Material이 있을 경우에 Array로 반환합니다.</summary>
-		/// <returns>기존 아바타에서 지정된 Material 배열</returns>
-		private static Material[] CheckOldAvatarMaterials(ModelImporter OldModelImporter) {
+		private static void CheckAvatarMaterials(ModelImporter OldModelImporter, ModelImporter NewModelImporter) {
 			Object[] OldAvatarObjects = OldModelImporter.GetExternalObjectMap().Values.ToArray();
-			Material[] OldAvatarMaterials = new Material[0];
-			foreach (Object OldObject in OldAvatarObjects) {
-				Material TargetMaterial = (Material)OldObject;
-				if (TargetMaterial) OldAvatarMaterials = OldAvatarMaterials.Concat(new Material[] { TargetMaterial }).ToArray();
+			Material[] OldAvatarMaterials = new Material[OldAvatarObjects.Length];
+			for (int Index = 0; Index < OldAvatarObjects.Length; Index++) {
+				Material TargetMaterial = (Material)OldAvatarObjects[Index];
+				if (TargetMaterial) {
+					OldAvatarMaterials[Index] = TargetMaterial;
+				} else {
+					OldAvatarMaterials[Index] = null;
+				}
 			}
-			return OldAvatarMaterials;
+			foreach (Material TargetMaterial in OldAvatarMaterials) {
+				NewModelImporter.AddRemap(new AssetImporter.SourceAssetIdentifier(TargetMaterial), TargetMaterial);
+			}
+			return;
 		}
 
 		/// <summary>새 아바타 GameObject를 Scene에 배치를 합니다.</summary>
