@@ -1,4 +1,5 @@
 ﻿#if UNITY_EDITOR
+using System.Linq;
 using System.Reflection;
 
 using UnityEditor;
@@ -132,6 +133,7 @@ namespace com.vrsuya.avatarrebuilder {
 			NewAvatarModelImporter.useSRGBMaterialColor = OldAvatarModelImporter.useSRGBMaterialColor;
 			NewAvatarModelImporter.weldVertices = OldAvatarModelImporter.weldVertices;
 			CheckLegacyBlendShapeNormals(OldAvatarModelImporter, NewAvatarModelImporter);
+			Material[] OldAvatarMaterials = CheckOldAvatarMaterials(OldAvatarModelImporter);
 			EditorUtility.SetDirty(NewAvatarModelImporter);
 			NewAvatarModelImporter.SaveAndReimport();
 		}
@@ -144,6 +146,18 @@ namespace com.vrsuya.avatarrebuilder {
 			OldModelImporter.isReadable = true;
 			NewModelImporter.isReadable = true;
 			NewLegacyProperty.SetValue(NewModelImporter, (bool)OldLegacyProperty.GetValue(OldModelImporter));
+		}
+
+		/// <summary>기존 아바타에서 지정된 Material이 있을 경우에 Array로 반환합니다.</summary>
+		/// <returns>기존 아바타에서 지정된 Material 배열</returns>
+		private static Material[] CheckOldAvatarMaterials(ModelImporter OldModelImporter) {
+			Object[] OldAvatarObjects = OldModelImporter.GetExternalObjectMap().Values.ToArray();
+			Material[] OldAvatarMaterials = new Material[0];
+			foreach (Object OldObject in OldAvatarObjects) {
+				Material TargetMaterial = (Material)OldObject;
+				if (TargetMaterial) OldAvatarMaterials = OldAvatarMaterials.Concat(new Material[] { TargetMaterial }).ToArray();
+			}
+			return OldAvatarMaterials;
 		}
 
 		/// <summary>새 아바타 GameObject를 Scene에 배치를 합니다.</summary>
