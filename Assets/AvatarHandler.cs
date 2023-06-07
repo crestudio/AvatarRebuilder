@@ -29,16 +29,23 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <summary>기존 아바타를 복제하여 백업본을 생성합니다.</summary>
 		internal static void CreateDuplicateAvatar() {
 			Undo.RecordObject(OldAvatarGameObject, "Duplicated Old Avatar");
-			GameObject DuplicatedAvatar = Instantiate(OldAvatarGameObject);
+			GameObject DuplicatedAvatar;
+			if (PrefabUtility.GetPrefabAssetType(OldAvatarGameObject) != PrefabAssetType.NotAPrefab) {
+				GameObject OldAvatarGameObjectPrefab = PrefabUtility.GetCorrespondingObjectFromSource(OldAvatarGameObject);
+				DuplicatedAvatar = (GameObject)PrefabUtility.InstantiatePrefab(OldAvatarGameObjectPrefab);
+				PrefabUtility.SetPropertyModifications(DuplicatedAvatar, PrefabUtility.GetPropertyModifications(OldAvatarGameObject));
+			} else {
+				DuplicatedAvatar = Instantiate(OldAvatarGameObject);
+			}
 			Undo.RegisterCreatedObjectUndo(DuplicatedAvatar, "Duplicated Old Avatar");
-			DuplicatedAvatar.name = OldAvatarGameObject.name;
-			OldAvatarGameObject.name = DuplicatedAvatar.name + "(Backup)";
+			string TargetName = OldAvatarGameObject.name;
+			OldAvatarGameObject.name = TargetName + " (Backup)";
 			OldAvatarGameObject.SetActive(false);
+			DuplicatedAvatar.name = TargetName;
 			Undo.CollapseUndoOperations(UndoGroupIndex);
-
 			OldAvatarGameObject = DuplicatedAvatar;
-			OldAvatarAnimator = OldAvatarGameObject.GetComponent<Animator>();
-			AvatarRootBone = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips);
+			OldAvatarAnimator = DuplicatedAvatar.GetComponent<Animator>();
+			AvatarRootBone = DuplicatedAvatar.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Hips);
 			return;
 		}
 
