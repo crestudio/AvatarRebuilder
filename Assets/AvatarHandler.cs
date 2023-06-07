@@ -1,4 +1,6 @@
 ﻿#if UNITY_EDITOR
+using System.Reflection;
+
 using UnityEditor;
 using UnityEngine;
 
@@ -129,7 +131,19 @@ namespace com.vrsuya.avatarrebuilder {
 			NewAvatarModelImporter.useFileUnits = OldAvatarModelImporter.useFileUnits;
 			NewAvatarModelImporter.useSRGBMaterialColor = OldAvatarModelImporter.useSRGBMaterialColor;
 			NewAvatarModelImporter.weldVertices = OldAvatarModelImporter.weldVertices;
+			CheckLegacyBlendShapeNormals(OldAvatarModelImporter, NewAvatarModelImporter);
+			EditorUtility.SetDirty(NewAvatarModelImporter);
 			NewAvatarModelImporter.SaveAndReimport();
+		}
+
+		/// <summary>Legacy Blend Shape Normals 속성을 강제 복제합니다.</summary>
+		private static void CheckLegacyBlendShapeNormals(ModelImporter OldModelImporter, ModelImporter NewModelImporter) {
+			string PropertyName = "legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes";
+			PropertyInfo OldLegacyProperty = OldModelImporter.GetType().GetProperty(PropertyName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+			PropertyInfo NewLegacyProperty = NewModelImporter.GetType().GetProperty(PropertyName, BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+			OldModelImporter.isReadable = true;
+			NewModelImporter.isReadable = true;
+			NewLegacyProperty.SetValue(NewModelImporter, (bool)OldLegacyProperty.GetValue(OldModelImporter));
 		}
 
 		/// <summary>새 아바타 GameObject를 Scene에 배치를 합니다.</summary>
