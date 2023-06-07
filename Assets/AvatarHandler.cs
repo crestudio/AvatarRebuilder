@@ -76,6 +76,7 @@ namespace com.vrsuya.avatarrebuilder {
 			UnityEngine.Avatar OldAnimatorAvatar = OldAvatarAnimator.avatar;
 			string OldAvatarAssetPath = AssetDatabase.GetAssetPath(OldAnimatorAvatar);
 			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAvatarGameObject);
+			if (string.IsNullOrEmpty(NewAvatarAssetPath)) NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAvatarAnimator.avatar);
 			ModelImporter OldAvatarModelImporter = AssetImporter.GetAtPath(OldAvatarAssetPath) as ModelImporter;
 			ModelImporter NewAvatarModelImporter = AssetImporter.GetAtPath(NewAvatarAssetPath) as ModelImporter;
 			Undo.RecordObject(NewAvatarModelImporter, "Pasted from Old Avatar FBX Import Settings");
