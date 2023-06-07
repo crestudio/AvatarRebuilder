@@ -72,6 +72,7 @@ namespace com.vrsuya.avatarrebuilder {
 			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAvatarGameObject);
 			ModelImporter OldAvatarModelImporter = AssetImporter.GetAtPath(OldAvatarAssetPath) as ModelImporter;
 			ModelImporter NewAvatarModelImporter = AssetImporter.GetAtPath(NewAvatarAssetPath) as ModelImporter;
+			Undo.RecordObject(NewAvatarModelImporter, "Pasted from Old Avatar FBX Import Settings");
 			NewAvatarModelImporter.addCollider = OldAvatarModelImporter.addCollider;
 			NewAvatarModelImporter.animationCompression = OldAvatarModelImporter.animationCompression;
 			NewAvatarModelImporter.animationPositionError = OldAvatarModelImporter.animationPositionError;
@@ -136,6 +137,7 @@ namespace com.vrsuya.avatarrebuilder {
 			Material[] OldAvatarMaterials = CheckOldAvatarMaterials(OldAvatarModelImporter);
 			EditorUtility.SetDirty(NewAvatarModelImporter);
 			NewAvatarModelImporter.SaveAndReimport();
+			Undo.CollapseUndoOperations(UndoGroupIndex);
 		}
 
 		/// <summary>Legacy Blend Shape Normals 속성을 강제 복제합니다.</summary>
