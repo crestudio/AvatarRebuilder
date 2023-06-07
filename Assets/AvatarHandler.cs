@@ -162,10 +162,10 @@ namespace com.vrsuya.avatarrebuilder {
 
 		/// <summary>새 아바타 GameObject를 Scene에 배치를 합니다.</summary>
 		private static void PlaceGameObejctInScene() {
-			GameObject NewInstance = (GameObject)PrefabUtility.InstantiatePrefab(NewAvatarGameObject);
-			Debug.Log("Done");
+			GameObject NewInstance = Instantiate(NewAvatarGameObject);
 			Undo.RegisterCreatedObjectUndo(NewInstance, "Added New GameObject");
 			Undo.CollapseUndoOperations(UndoGroupIndex);
+			NewAvatarGameObject = NewInstance;
 			return;
 		}
 	}
