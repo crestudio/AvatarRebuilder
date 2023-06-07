@@ -43,6 +43,7 @@ namespace com.vrsuya.avatarrebuilder {
 		// 사전 데이터
 		private static List<HumanBodyBones> HumanBodyBoneList = GetHumanBoneList();
 		private static readonly string[] ArmatureNames = { "Armature", "armature", "Sonia", "Ash" };
+		private static readonly string[] ToeBoneName = { "Left Toe", "Right Toe", "Toe.L", "Toe.R", "Toe_L", "Toe_R" }; 
 		private static readonly Dictionary<BoneNameType, string[]> dictCheekBoneNames = new Dictionary<BoneNameType, string[]>() {
 			{ BoneNameType.General, new string[] { "Cheek1_L", "Cheek1_R", "Cheek2_L", "Cheek2_R" } },
 			{ BoneNameType.Komado, new string[] { "Cheek_Root_L", "Cheek_Root_R", "Cheek_L", "Cheek_R" } },
@@ -425,18 +426,63 @@ namespace com.vrsuya.avatarrebuilder {
 				Transform RightToe = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.RightToes);
 				Transform TargetLeft = null;
 				Transform TargetRight = null;
-				if (!LeftToe) { 
-					TargetLeft = LeftFoot;
+				if (!LeftToe) {
+					switch (LeftFoot.childCount) {
+						case 1:
+							TargetLeft = LeftFoot.GetChild(0);
+							break;
+						case 0:
+							TargetLeft = LeftFoot;
+							break;
+						default:
+							Transform[] SearchTransform = new Transform[LeftFoot.childCount];
+							for (int Index = 0; Index < LeftFoot.childCount; Index++) {
+								SearchTransform[Index] = LeftFoot.GetChild(Index);
+							}
+							Transform TargetGameObject = Array.Find(SearchTransform, TargetObject => Array.Exists(ToeBoneName, BoneName => TargetObject.name == BoneName));
+							if (TargetGameObject) {
+								TargetLeft = TargetGameObject;
+							} else {
+								TargetLeft = LeftFoot.GetChild(0);
+							}
+							break;
+					}
 				} else {
 					TargetLeft = LeftToe;
 				}
 				if (!RightToe) {
-					TargetRight = RightFoot;
+					switch (RightFoot.childCount) {
+						case 1:
+							TargetRight = RightFoot.GetChild(0);
+							break;
+						case 0:
+							TargetRight = RightFoot;
+							break;
+						default:
+							Transform[] SearchTransform = new Transform[RightFoot.childCount];
+							for (int Index = 0; Index < RightFoot.childCount; Index++) {
+								SearchTransform[Index] = RightFoot.GetChild(Index);
+							}
+							Transform TargetGameObject = Array.Find(SearchTransform, TargetObject => Array.Exists(ToeBoneName, BoneName => TargetObject.name == BoneName));
+							if (TargetGameObject) {
+								TargetRight = TargetGameObject;
+							} else {
+								TargetRight = RightFoot.GetChild(0);
+							}
+							break;
+					}
 				} else {
 					TargetRight = RightToe;
 				}
-				foreach (GameObject CheekBoneGameObject in NewFeetBoneGameObjects) {
-					CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
+				foreach (GameObject ToeBoneGameObject in NewFeetBoneGameObjects) {
+					switch (ToeBoneGameObject.name.Substring(ToeBoneGameObject.name.Length - 1, 1)) {
+						case "L":
+							ToeBoneGameObject.transform.SetParent(TargetLeft, false);
+							break;
+						case "R":
+							ToeBoneGameObject.transform.SetParent(TargetRight, false);
+							break;
+					}
 				}
 			}
 			return;
