@@ -53,6 +53,7 @@ namespace com.vrsuya.avatarrebuilder {
 		protected static bool ToggleReorderGameObject;
 
 		protected static string StatusString;
+		protected static bool NewAvatarPatched;
 		protected static int UndoGroupIndex;
 
 		// 컴포넌트 최초 로드시 동작
@@ -132,6 +133,7 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <summary>정적 변수를 초기화 합니다.</summary>
 		private static void ClearVariable() {
 			NewAvatarSkinnedMeshRenderers = new SkinnedMeshRenderer[0];
+			NewAvatarPatched = false;
 			StatusString = "";
 			return;
         }

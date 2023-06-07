@@ -22,12 +22,7 @@ namespace com.vrsuya.avatarrebuilder {
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
 		internal static void RequestCheckNewAvatar() {
-			if (!IsSameFBX()) {
-				if(!IsExistNewAvatarInScene()) {
-					ApplyNewAvatarFBXModel();
-					PlaceGameObejctInScene();
-				}
-			}
+			if (!IsSameFBX() && !NewAvatarPatched) ApplyNewAvatarFBXModel();
 			return;
 		}
 
@@ -143,6 +138,7 @@ namespace com.vrsuya.avatarrebuilder {
 			AssetDatabase.WriteImportSettingsIfDirty(NewAvatarAssetPath);
 			NewAvatarModelImporter.SaveAndReimport();
 			Undo.CollapseUndoOperations(UndoGroupIndex);
+			NewAvatarPatched = true;
 		}
 
 		/// <summary>Legacy Blend Shape Normals 속성을 강제 복제합니다.</summary>
