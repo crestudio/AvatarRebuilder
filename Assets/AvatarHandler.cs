@@ -46,6 +46,7 @@ namespace com.vrsuya.avatarrebuilder {
 			OldAvatarGameObject = DuplicatedAvatar;
 			OldAvatarAnimator = DuplicatedAvatar.GetComponent<Animator>();
 			AvatarRootBone = DuplicatedAvatar.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Hips);
+			Selection.activeGameObject = DuplicatedAvatar;
 			return;
 		}
 
