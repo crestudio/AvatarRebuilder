@@ -173,9 +173,10 @@ namespace com.vrsuya.avatarrebuilder {
 
 		public void DebugMethod() {
 			SetStaticVariable();
-			if (VerifyVariable()) {
-				AvatarHandler.RequestCheckNewAvatar();
-			}
+			OldAvatarAnimator = OldAvatarGameObject.GetComponent<Animator>();
+			AvatarRootBone = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips);
+			NewAvatarAnimator = NewAvatarGameObject.GetComponent<Animator>();
+			AvatarHandler.ApplyNewAvatarFBXModel();
 			return;
 		}
     }

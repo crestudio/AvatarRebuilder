@@ -63,7 +63,7 @@ namespace com.vrsuya.avatarrebuilder {
 		}
 
 		/// <summary>기존 아바타의 FBX 메타 데이터를 복제하여, 새 아바타의 FBX 메타 데이터에 적용 합니다.</summary>
-		private static void ApplyNewAvatarFBXModel() {
+		internal static void ApplyNewAvatarFBXModel() {
 			UnityEngine.Avatar OldAnimatorAvatar = OldAvatarAnimator.avatar;
 			string OldAvatarAssetPath = AssetDatabase.GetAssetPath(OldAnimatorAvatar);
 			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAvatarGameObject);
