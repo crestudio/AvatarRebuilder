@@ -115,7 +115,8 @@ namespace com.vrsuya.avatarrebuilder {
 		public void ReplaceSkinnedMeshRendererGameObjects() {
 			Undo.IncrementCurrentGroup();
 			Undo.SetCurrentGroupName("VRSuya Avatar Rebuilder");
-			SetStaticVariable();
+            UndoGroupIndex = Undo.GetCurrentGroup();
+            SetStaticVariable();
 			ClearVariable();
 			AvatarHandler.CheckExistNewAvatarInScene();
 			if (VerifyVariable()) {
