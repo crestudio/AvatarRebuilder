@@ -173,6 +173,7 @@ namespace com.vrsuya.avatarrebuilder {
 				}
 			}
 			foreach (Material TargetMaterial in OldAvatarMaterials) {
+				if (!TargetMaterial) continue;
 				NewModelImporter.AddRemap(new AssetImporter.SourceAssetIdentifier(TargetMaterial), TargetMaterial);
 			}
 			return;
