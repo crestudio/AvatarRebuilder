@@ -57,6 +57,8 @@ namespace com.vrsuya.avatarrebuilder {
 			OldAvatarGameObject.SetActive(false);
 			DuplicatedAvatar.name = TargetName;
             DuplicatedAvatar.transform.SetSiblingIndex(OldAvatarGameObject.transform.GetSiblingIndex());
+            EditorUtility.SetDirty(OldAvatarGameObject);
+            EditorUtility.SetDirty(DuplicatedAvatar);
             Undo.CollapseUndoOperations(UndoGroupIndex);
 			OldAvatarGameObject = DuplicatedAvatar;
 			OldAvatarAnimator = DuplicatedAvatar.GetComponent<Animator>();
@@ -196,7 +198,8 @@ namespace com.vrsuya.avatarrebuilder {
         /// <summary>새로 복제된 기존 아바타의 Animator의 Avatar를 신규 아바타의 Avatar로 변경합니다.</summary>
         private static void ReplaceOldAvatarAnimatorAvatar() {
 			OldAvatarAnimator.avatar = NewAvatarAnimator.avatar;
-			return;
+            EditorUtility.SetDirty(OldAvatarAnimator);
+            return;
 		}
 
     }

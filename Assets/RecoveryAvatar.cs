@@ -197,11 +197,13 @@ namespace com.vrsuya.avatarrebuilder {
 					case "Eyo_hair 1":
                         Undo.RecordObject(TargetTransform, "Rename GameObject");
                         TargetTransform.name = "Eyo_hair";
+                        EditorUtility.SetDirty(TargetTransform);
                         Undo.CollapseUndoOperations(UndoGroupIndex);
                         break;
 					case "Imeris_hair 1":
                         Undo.RecordObject(TargetTransform, "Rename GameObject");
                         TargetTransform.name = "Imeris_hair";
+                        EditorUtility.SetDirty(TargetTransform);
                         Undo.CollapseUndoOperations(UndoGroupIndex);
                         break;
 				}
@@ -217,6 +219,7 @@ namespace com.vrsuya.avatarrebuilder {
 				} else {
                     Undo.RecordObject(NewAvatarGameObject, "Unpack Prefab");
                     PrefabUtility.UnpackPrefabInstance(NewAvatarGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+                    EditorUtility.SetDirty(NewAvatarGameObject);
                     Undo.CollapseUndoOperations(UndoGroupIndex);
                 }
 			}
@@ -226,6 +229,7 @@ namespace com.vrsuya.avatarrebuilder {
 				} else {
                     Undo.RecordObject(OldAvatarGameObject, "Unpack Prefab");
                     if (PrefabUtility.GetPrefabAssetType(OldAvatarGameObject) != PrefabAssetType.NotAPrefab) PrefabUtility.UnpackPrefabInstance(OldAvatarGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+                    EditorUtility.SetDirty(OldAvatarGameObject);
                     Undo.CollapseUndoOperations(UndoGroupIndex);
                 }
 			}
@@ -239,6 +243,7 @@ namespace com.vrsuya.avatarrebuilder {
 			NewAvatarGameObject.transform.localPosition = OldAvatarGameObject.transform.localPosition;
 			NewAvatarGameObject.transform.localRotation = OldAvatarGameObject.transform.localRotation;
 			NewAvatarGameObject.transform.localScale = OldAvatarGameObject.transform.localScale;
+            EditorUtility.SetDirty(NewAvatarGameObject);
             Undo.CollapseUndoOperations(UndoGroupIndex);
             return;
 		}
@@ -263,6 +268,7 @@ namespace com.vrsuya.avatarrebuilder {
                         NewArmatureTransforms[NewIndex].localPosition = OldArmatureTransforms[OldIndex].localPosition;
 						NewArmatureTransforms[NewIndex].localRotation = OldArmatureTransforms[OldIndex].localRotation;
 						NewArmatureTransforms[NewIndex].localScale = OldArmatureTransforms[OldIndex].localScale;
+                        EditorUtility.SetDirty(NewArmatureTransforms[NewIndex]);
                         Undo.CollapseUndoOperations(UndoGroupIndex);
                         break;
 					}
@@ -277,6 +283,7 @@ namespace com.vrsuya.avatarrebuilder {
                         NewArmatureTransforms[ArmatureIndex].localPosition = OldAvatarAnimator.GetBoneTransform(HumanBone).localPosition;
 						NewArmatureTransforms[ArmatureIndex].localRotation = OldAvatarAnimator.GetBoneTransform(HumanBone).localRotation;
 						NewArmatureTransforms[ArmatureIndex].localScale = OldAvatarAnimator.GetBoneTransform(HumanBone).localScale;
+                        EditorUtility.SetDirty(NewArmatureTransforms[ArmatureIndex]);
                         Undo.CollapseUndoOperations(UndoGroupIndex);
                     }
 				}
@@ -319,6 +326,7 @@ namespace com.vrsuya.avatarrebuilder {
 				NewAvatarSkinnedMeshRenderers[Index].probeAnchor = OldAvatarSkinnedMeshRenderers[Index].probeAnchor;
 				NewAvatarSkinnedMeshRenderers[Index].skinnedMotionVectors = OldAvatarSkinnedMeshRenderers[Index].skinnedMotionVectors;
 				NewAvatarSkinnedMeshRenderers[Index].allowOcclusionWhenDynamic = OldAvatarSkinnedMeshRenderers[Index].allowOcclusionWhenDynamic;
+                EditorUtility.SetDirty(NewAvatarSkinnedMeshRenderers[Index]);
                 Undo.CollapseUndoOperations(UndoGroupIndex);
             }
 			return;
@@ -350,6 +358,7 @@ namespace com.vrsuya.avatarrebuilder {
 						}
 					}
 				}
+                EditorUtility.SetDirty(NewAvatarSkinnedMeshRenderers[Index]);
                 Undo.CollapseUndoOperations(UndoGroupIndex);
             }
 			return;
@@ -387,6 +396,7 @@ namespace com.vrsuya.avatarrebuilder {
 					}
 				}
 				NewSkinnedMeshRenderer.bones = ChildBones;
+                EditorUtility.SetDirty(NewSkinnedMeshRenderer);
                 Undo.CollapseUndoOperations(UndoGroupIndex);
             }
 			return;
@@ -397,6 +407,7 @@ namespace com.vrsuya.avatarrebuilder {
 			for (int Index = 0; Index < NewAvatarGameObjects.Length; Index++) {
                 Undo.RecordObject(NewAvatarGameObjects[Index], "Copy GameObject Active Status");
                 NewAvatarGameObjects[Index].SetActive(OldAvatarGameObjects[Index].activeSelf);
+                EditorUtility.SetDirty(NewAvatarGameObjects[Index]);
                 Undo.CollapseUndoOperations(UndoGroupIndex);
             }
 			return;
@@ -409,6 +420,7 @@ namespace com.vrsuya.avatarrebuilder {
 				if (Array.Exists(NewArmatureTransformNames, Name => Name == OldArmatureTransforms[Index].name) == true) {
                     Undo.RecordObject(OldArmatureTransforms[Index], "Set GameObject order first");
                     OldArmatureTransforms[Index].transform.SetAsFirstSibling();
+                    EditorUtility.SetDirty(OldArmatureTransforms[Index]);
                     Undo.CollapseUndoOperations(UndoGroupIndex);
                 }
 			}
@@ -417,6 +429,7 @@ namespace com.vrsuya.avatarrebuilder {
 				if (OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]) == null) continue;
                 Undo.RecordObject(OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]), "Set GameObject order first");
                 OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]).SetAsFirstSibling();
+                EditorUtility.SetDirty(OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]));
                 Undo.CollapseUndoOperations(UndoGroupIndex);
             }
 			return;
@@ -428,6 +441,7 @@ namespace com.vrsuya.avatarrebuilder {
                 Undo.RecordObject(NewAvatarGameObjects[Index], "Move New GameObject");
                 NewAvatarGameObjects[Index].transform.SetParent(OldAvatarGameObjects[Index].transform.parent, false);
 				NewAvatarGameObjects[Index].transform.SetSiblingIndex(OldAvatarGameObjects[Index].transform.GetSiblingIndex() + 1);
+                EditorUtility.SetDirty(NewAvatarGameObjects[Index]);
                 Undo.CollapseUndoOperations(UndoGroupIndex);
             }
 			return;
@@ -441,6 +455,7 @@ namespace com.vrsuya.avatarrebuilder {
 					if (!Array.Exists(HeadChildTransformNames, TransformName => CheekBoneGameObject.name == TransformName)) {
                         Undo.RecordObject(CheekBoneGameObject, "Move Cheek GameObject");
                         CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
+                        EditorUtility.SetDirty(CheekBoneGameObject);
                         Undo.CollapseUndoOperations(UndoGroupIndex);
                     }
 				}
@@ -507,6 +522,7 @@ namespace com.vrsuya.avatarrebuilder {
 							if (!Array.Exists(TargetLeftChildTransformNames, TransformName => ToeBoneGameObject.name == TransformName)) {
                                 Undo.RecordObject(ToeBoneGameObject, "Move Toe GameObject");
                                 ToeBoneGameObject.transform.SetParent(TargetLeft, false);
+                                EditorUtility.SetDirty(ToeBoneGameObject);
                                 Undo.CollapseUndoOperations(UndoGroupIndex);
                             }
 							break;
@@ -514,6 +530,7 @@ namespace com.vrsuya.avatarrebuilder {
 							if (!Array.Exists(TargetRightChildTransformNames, TransformName => ToeBoneGameObject.name == TransformName)) {
                                 Undo.RecordObject(ToeBoneGameObject, "Move Toe GameObject");
                                 ToeBoneGameObject.transform.SetParent(TargetRight, false);
+                                EditorUtility.SetDirty(ToeBoneGameObject);
                                 Undo.CollapseUndoOperations(UndoGroupIndex);
                             }
 							break;
@@ -557,6 +574,7 @@ namespace com.vrsuya.avatarrebuilder {
 				if (NewAvatarHeadEyelidsSkinnedMeshRenderer) {
 					OldVRCAvatarDescriptor.customEyeLookSettings.eyelidsSkinnedMesh = NewAvatarHeadEyelidsSkinnedMeshRenderer;
 				}
+                EditorUtility.SetDirty(OldVRCAvatarDescriptor);
                 Undo.CollapseUndoOperations(UndoGroupIndex);
             }
 			return;
