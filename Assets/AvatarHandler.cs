@@ -54,9 +54,9 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		/// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
-		/// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
-		private static bool IsSameFBX() {
+        /// <summary>기존 아바타와 신규 아바타가 같은 FBX 파일을 사용하는지 알려줍니다.</summary>
+        /// <returns>같은 FBX 파일을 사용 여부</returns>
+        private static bool IsSameFBX() {
 			UnityEngine.Avatar OldAnimatorAvatar = OldAvatarAnimator.avatar;
 			UnityEngine.Avatar NewAnimatorAvatar = NewAvatarAnimator.avatar;
 			string OldAvatarAssetPath = AssetDatabase.GetAssetPath(OldAnimatorAvatar);
@@ -163,7 +163,7 @@ namespace com.vrsuya.avatarrebuilder {
 			NewLegacyProperty.SetValue(NewModelImporter, (bool)OldLegacyProperty.GetValue(OldModelImporter));
 		}
 
-		/// <summary>기존 아바타에서 지정된 Material이 있을 경우에 Array로 반환합니다.</summary>
+		/// <summary>기존 아바타에서 지정된 Material이 있을 경우에 신규 아바타로 Material을 복제합니다.</summary>
 		private static void CheckAvatarMaterials(ModelImporter OldModelImporter, ModelImporter NewModelImporter) {
 			Object[] OldAvatarObjects = OldModelImporter.GetExternalObjectMap().Values.ToArray();
 			Material[] OldAvatarMaterials = new Material[OldAvatarObjects.Length];
