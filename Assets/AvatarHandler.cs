@@ -30,8 +30,18 @@ namespace com.vrsuya.avatarrebuilder {
 			return;
 		}
 
-		/// <summary>기존 아바타를 복제하여 백업본을 생성합니다.</summary>
-		internal static void CreateDuplicateAvatar() {
+        /// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
+        /// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
+        internal static void CheckExistNewAvatarInScene() {
+            if (!NewAvatarGameObject.scene.IsValid()) {
+                ApplyNewAvatarFBXModel();
+                PlaceGameObejctInScene();
+            }
+            return;
+        }
+
+        /// <summary>기존 아바타를 복제하여 백업본을 생성합니다.</summary>
+        internal static void CreateDuplicateAvatar() {
 			Undo.RecordObject(OldAvatarGameObject, "Duplicated Old Avatar");
 			GameObject DuplicatedAvatar;
 			if (PrefabUtility.GetPrefabAssetType(OldAvatarGameObject) != PrefabAssetType.NotAPrefab) {
@@ -64,16 +74,6 @@ namespace com.vrsuya.avatarrebuilder {
 			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAnimatorAvatar);
 			if (OldAvatarAssetPath == NewAvatarAssetPath) return (true);
 			return false;
-		}
-
-		/// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
-		/// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
-		internal static void CheckExistNewAvatarInScene() {
-			if (!NewAvatarGameObject.scene.IsValid()) {
-				ApplyNewAvatarFBXModel();
-				PlaceGameObejctInScene();
-			}
-			return;
 		}
 
 		/// <summary>기존 아바타의 FBX 메타 데이터를 복제하여, 새 아바타의 FBX 메타 데이터에 적용 합니다.</summary>
