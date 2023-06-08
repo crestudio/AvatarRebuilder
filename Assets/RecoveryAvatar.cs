@@ -410,8 +410,11 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <summary>신규 아바타의 볼 본 GameObject를 기존 아바타로 이동합니다.</summary>
 		private static void MoveCheekBoneGameObjects() {
 			if (NewCheekBoneGameObjects.Length > 0) {
-				foreach (GameObject CheekBoneGameObject in NewCheekBoneGameObjects) {
-					CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
+                string[] HeadChildTransformNames = GetChildTransforms(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head)).Select(TransformItem => TransformItem.name).ToArray();
+                foreach (GameObject CheekBoneGameObject in NewCheekBoneGameObjects) {
+					if (!Array.Exists(HeadChildTransformNames, TransformName => CheekBoneGameObject.name == TransformName)) {
+						CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
+					}
 				}
 			}
 			return;
@@ -435,11 +438,8 @@ namespace com.vrsuya.avatarrebuilder {
 							TargetLeft = LeftFoot;
 							break;
 						default:
-							Transform[] SearchTransform = new Transform[LeftFoot.childCount];
-							for (int Index = 0; Index < LeftFoot.childCount; Index++) {
-								SearchTransform[Index] = LeftFoot.GetChild(Index);
-							}
-							Transform TargetGameObject = Array.Find(SearchTransform, TargetObject => Array.Exists(ToeBoneName, BoneName => TargetObject.name == BoneName));
+							Transform[] SearchTransform = GetChildTransforms(LeftFoot);
+                            Transform TargetGameObject = Array.Find(SearchTransform, TargetObject => Array.Exists(ToeBoneName, BoneName => TargetObject.name == BoneName));
 							if (TargetGameObject) {
 								TargetLeft = TargetGameObject;
 							} else {
@@ -459,10 +459,7 @@ namespace com.vrsuya.avatarrebuilder {
 							TargetRight = RightFoot;
 							break;
 						default:
-							Transform[] SearchTransform = new Transform[RightFoot.childCount];
-							for (int Index = 0; Index < RightFoot.childCount; Index++) {
-								SearchTransform[Index] = RightFoot.GetChild(Index);
-							}
+							Transform[] SearchTransform = GetChildTransforms(RightFoot);
 							Transform TargetGameObject = Array.Find(SearchTransform, TargetObject => Array.Exists(ToeBoneName, BoneName => TargetObject.name == BoneName));
 							if (TargetGameObject) {
 								TargetRight = TargetGameObject;
@@ -474,13 +471,19 @@ namespace com.vrsuya.avatarrebuilder {
 				} else {
 					TargetRight = RightToe;
 				}
-				foreach (GameObject ToeBoneGameObject in NewFeetBoneGameObjects) {
+				string[] TargetLeftChildTransformNames = GetChildTransforms(TargetLeft).Select(TransformItem => TransformItem.name).ToArray();
+                string[] TargetRightChildTransformNames = GetChildTransforms(TargetRight).Select(TransformItem => TransformItem.name).ToArray();
+                foreach (GameObject ToeBoneGameObject in NewFeetBoneGameObjects) {
 					switch (ToeBoneGameObject.name.Substring(ToeBoneGameObject.name.Length - 1, 1)) {
 						case "L":
-							ToeBoneGameObject.transform.SetParent(TargetLeft, false);
+							if (!Array.Exists(TargetLeftChildTransformNames, TransformName => ToeBoneGameObject.name == TransformName)) {
+								ToeBoneGameObject.transform.SetParent(TargetLeft, false);
+							}
 							break;
 						case "R":
-							ToeBoneGameObject.transform.SetParent(TargetRight, false);
+							if (!Array.Exists(TargetRightChildTransformNames, TransformName => ToeBoneGameObject.name == TransformName)) {
+								ToeBoneGameObject.transform.SetParent(TargetRight, false);
+							}
 							break;
 					}
 				}
@@ -518,6 +521,17 @@ namespace com.vrsuya.avatarrebuilder {
 			}
 			return;
 		}
+
+        /// <summary>요청한 Transform의 한 단계 아래 Child Transform 배열을 반환합니다.</summary>
+        /// <returns>Transform의 한 단계 아래 Child Transform 배열</returns>
+        private static Transform[] GetChildTransforms(Transform TargetTransform) {
+			Transform[] ReturnTransforms = new Transform[TargetTransform.childCount];
+            for (int Index = 0; Index < TargetTransform.childCount; Index++) {
+                ReturnTransforms[Index] = TargetTransform.GetChild(Index);
+            }
+			return ReturnTransforms;
+
+        }
 	}
 }
 #endif
