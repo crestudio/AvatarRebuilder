@@ -117,7 +117,7 @@ namespace com.vrsuya.avatarrebuilder {
 			ReplaceSkinnedMeshRendererBoneSettings();
 			CopyGameObjectActive();
 			MoveGameObjects();
-			MoveCheekBoneGameObjects();
+			if (TargetAvatar != Avatar.SELESTIA) MoveCheekBoneGameObjects();
 			MoveFeetBoneGameObjects();
 			DeleteGameObjects();
 			UpdateVRCAvatarDescriptor();
