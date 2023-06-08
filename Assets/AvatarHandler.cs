@@ -22,7 +22,11 @@ namespace com.vrsuya.avatarrebuilder {
 		/// 본 프로그램의 메인 세팅 로직입니다.
 		/// </summary>
 		internal static void RequestCheckNewAvatar() {
-			if (!IsSameFBX() && !NewAvatarPatched) ApplyNewAvatarFBXModel();
+			if (!IsSameFBX() && !NewAvatarPatched) {
+				ApplyNewAvatarFBXModel();
+			} else if (!IsSameFBX() && NewAvatarPatched) {
+				ReplaceOldAvatarAnimatorAvatar();
+			}
 			return;
 		}
 
@@ -188,6 +192,13 @@ namespace com.vrsuya.avatarrebuilder {
 			NewAvatarGameObject = NewInstance;
 			return;
 		}
-	}
+
+        /// <summary>새로 복제된 기존 아바타의 Animator의 Avatar를 신규 아바타의 Avatar로 변경합니다.</summary>
+        private static void ReplaceOldAvatarAnimatorAvatar() {
+			OldAvatarAnimator.avatar = NewAvatarAnimator.avatar;
+			return;
+		}
+
+    }
 }
 #endif
