@@ -46,7 +46,8 @@ namespace com.vrsuya.avatarrebuilder {
 			OldAvatarGameObject.name = TargetName + " (Backup)";
 			OldAvatarGameObject.SetActive(false);
 			DuplicatedAvatar.name = TargetName;
-			Undo.CollapseUndoOperations(UndoGroupIndex);
+            DuplicatedAvatar.transform.SetSiblingIndex(OldAvatarGameObject.transform.GetSiblingIndex());
+            Undo.CollapseUndoOperations(UndoGroupIndex);
 			OldAvatarGameObject = DuplicatedAvatar;
 			OldAvatarAnimator = DuplicatedAvatar.GetComponent<Animator>();
 			AvatarRootBone = DuplicatedAvatar.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Hips);
