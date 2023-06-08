@@ -195,11 +195,15 @@ namespace com.vrsuya.avatarrebuilder {
 			foreach (Transform TargetTransform in NewArmatureTransforms) {
 				switch (TargetTransform.name) {
 					case "Eyo_hair 1":
-						TargetTransform.name = "Eyo_hair";
-						break;
+                        Undo.RecordObject(TargetTransform, "Rename GameObject");
+                        TargetTransform.name = "Eyo_hair";
+                        Undo.CollapseUndoOperations(UndoGroupIndex);
+                        break;
 					case "Imeris_hair 1":
-						TargetTransform.name = "Imeris_hair";
-						break;
+                        Undo.RecordObject(TargetTransform, "Rename GameObject");
+                        TargetTransform.name = "Imeris_hair";
+                        Undo.CollapseUndoOperations(UndoGroupIndex);
+                        break;
 				}
 			}
 			return;
@@ -211,26 +215,32 @@ namespace com.vrsuya.avatarrebuilder {
 				if (PrefabUtility.GetPrefabAssetType(NewAvatarGameObject) == PrefabAssetType.NotAPrefab) {
 					break;
 				} else {
-					PrefabUtility.UnpackPrefabInstance(NewAvatarGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
-				}
+                    Undo.RecordObject(NewAvatarGameObject, "Unpack Prefab");
+                    PrefabUtility.UnpackPrefabInstance(NewAvatarGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+                    Undo.CollapseUndoOperations(UndoGroupIndex);
+                }
 			}
 			for (int Try = 0; Try < 5; Try++) {
 				if (PrefabUtility.GetPrefabAssetType(OldAvatarGameObject) == PrefabAssetType.NotAPrefab) {
 					break;
 				} else {
-					if (PrefabUtility.GetPrefabAssetType(OldAvatarGameObject) != PrefabAssetType.NotAPrefab) PrefabUtility.UnpackPrefabInstance(OldAvatarGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
-				}
+                    Undo.RecordObject(OldAvatarGameObject, "Unpack Prefab");
+                    if (PrefabUtility.GetPrefabAssetType(OldAvatarGameObject) != PrefabAssetType.NotAPrefab) PrefabUtility.UnpackPrefabInstance(OldAvatarGameObject, PrefabUnpackMode.OutermostRoot, InteractionMode.AutomatedAction);
+                    Undo.CollapseUndoOperations(UndoGroupIndex);
+                }
 			}
 			return;
 		}
 
 		/// <summary>신규 아바타의 Transform을 기존 아바타의 Transform에 맞게 변형합니다.</summary>
 		private static void ResizeNewAvatarTransform() {
-			NewAvatarGameObject.transform.SetPositionAndRotation(OldAvatarGameObject.transform.position, OldAvatarGameObject.transform.rotation);
+            Undo.RecordObject(NewAvatarGameObject, "Transform New Avatar");
+            NewAvatarGameObject.transform.SetPositionAndRotation(OldAvatarGameObject.transform.position, OldAvatarGameObject.transform.rotation);
 			NewAvatarGameObject.transform.localPosition = OldAvatarGameObject.transform.localPosition;
 			NewAvatarGameObject.transform.localRotation = OldAvatarGameObject.transform.localRotation;
 			NewAvatarGameObject.transform.localScale = OldAvatarGameObject.transform.localScale;
-			return;
+            Undo.CollapseUndoOperations(UndoGroupIndex);
+            return;
 		}
 
 		/// <summary>기존에 이미 존재하는 아바타 루트 볼 본 목록을 얻습니다.</summary>
@@ -249,10 +259,12 @@ namespace com.vrsuya.avatarrebuilder {
 						if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) {
 							if (Array.Exists(dictCheekBoneNames[TargetBoneType], BoneName => NewArmatureTransforms[NewIndex].name == BoneName)) continue;
 						}
-						NewArmatureTransforms[NewIndex].localPosition = OldArmatureTransforms[OldIndex].localPosition;
+                        Undo.RecordObject(NewArmatureTransforms[NewIndex], "Tranform Armature GameObject");
+                        NewArmatureTransforms[NewIndex].localPosition = OldArmatureTransforms[OldIndex].localPosition;
 						NewArmatureTransforms[NewIndex].localRotation = OldArmatureTransforms[OldIndex].localRotation;
 						NewArmatureTransforms[NewIndex].localScale = OldArmatureTransforms[OldIndex].localScale;
-						break;
+                        Undo.CollapseUndoOperations(UndoGroupIndex);
+                        break;
 					}
 				}
 			}
@@ -261,10 +273,12 @@ namespace com.vrsuya.avatarrebuilder {
 					if (HumanBone == HumanBodyBones.LastBone) continue;
 					if (OldAvatarAnimator.GetBoneTransform(HumanBone) == null) continue;
 					if (NewArmatureTransforms[ArmatureIndex].name == OldAvatarAnimator.GetBoneTransform(HumanBone).name) {
-						NewArmatureTransforms[ArmatureIndex].localPosition = OldAvatarAnimator.GetBoneTransform(HumanBone).localPosition;
+                        Undo.RecordObject(NewArmatureTransforms[ArmatureIndex], "Tranform Armature GameObject");
+                        NewArmatureTransforms[ArmatureIndex].localPosition = OldAvatarAnimator.GetBoneTransform(HumanBone).localPosition;
 						NewArmatureTransforms[ArmatureIndex].localRotation = OldAvatarAnimator.GetBoneTransform(HumanBone).localRotation;
 						NewArmatureTransforms[ArmatureIndex].localScale = OldAvatarAnimator.GetBoneTransform(HumanBone).localScale;
-					}
+                        Undo.CollapseUndoOperations(UndoGroupIndex);
+                    }
 				}
 			}
 			return;
@@ -273,8 +287,9 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <summary>신규 아바타에 GameObject 및 SkinnedMeshRenderer 데이터 복사합니다.</summary>
 		private static void CopyGameObjectSettings() {
 			for (int Index = 0; Index < NewAvatarSkinnedMeshRenderers.Length; Index++) {
-				// GameObject
-				NewAvatarSkinnedMeshRenderers[Index].gameObject.isStatic = OldAvatarSkinnedMeshRenderers[Index].gameObject.isStatic;
+                Undo.RecordObject(NewAvatarSkinnedMeshRenderers[Index], "Copy SkinnedMeshRenderer Settings");
+                // GameObject
+                NewAvatarSkinnedMeshRenderers[Index].gameObject.isStatic = OldAvatarSkinnedMeshRenderers[Index].gameObject.isStatic;
 				NewAvatarSkinnedMeshRenderers[Index].gameObject.tag = OldAvatarSkinnedMeshRenderers[Index].gameObject.tag;
 				NewAvatarSkinnedMeshRenderers[Index].gameObject.layer = OldAvatarSkinnedMeshRenderers[Index].gameObject.layer;
 
@@ -304,14 +319,16 @@ namespace com.vrsuya.avatarrebuilder {
 				NewAvatarSkinnedMeshRenderers[Index].probeAnchor = OldAvatarSkinnedMeshRenderers[Index].probeAnchor;
 				NewAvatarSkinnedMeshRenderers[Index].skinnedMotionVectors = OldAvatarSkinnedMeshRenderers[Index].skinnedMotionVectors;
 				NewAvatarSkinnedMeshRenderers[Index].allowOcclusionWhenDynamic = OldAvatarSkinnedMeshRenderers[Index].allowOcclusionWhenDynamic;
-			}
+                Undo.CollapseUndoOperations(UndoGroupIndex);
+            }
 			return;
 		}
 
 		/// <summary>Blendshape 리스트 목록 작성 및 신규 아바타로 Blendshape 수치 복사합니다.</summary>
 		private static void CopyBlendshapeSettings() {
 			for (int Index = 0; Index < NewAvatarSkinnedMeshRenderers.Length; Index++) {
-				Mesh NewAvatarMesh = NewAvatarSkinnedMeshRenderers[Index].sharedMesh;
+                Undo.RecordObject(NewAvatarSkinnedMeshRenderers[Index], "Copy SkinnedMeshRenderer BlendShape Settings");
+                Mesh NewAvatarMesh = NewAvatarSkinnedMeshRenderers[Index].sharedMesh;
 				Mesh OldAvatarMesh = OldAvatarSkinnedMeshRenderers[Index].sharedMesh;
 				string[] OldAvatarBlendshapeList = new string[OldAvatarMesh.blendShapeCount];
 				string[] NewAvatarBlendshapeList = new string[NewAvatarMesh.blendShapeCount];
@@ -333,14 +350,16 @@ namespace com.vrsuya.avatarrebuilder {
 						}
 					}
 				}
-			}
+                Undo.CollapseUndoOperations(UndoGroupIndex);
+            }
 			return;
 		}
 
 		/// <summary>신규 아바타의 SkinnedMeshRenderer의 본 데이터를 기존 Armature 본에 맞춰 이전 작업합니다.</summary>
 		private static void ReplaceSkinnedMeshRendererBoneSettings() {
 			foreach (SkinnedMeshRenderer NewSkinnedMeshRenderer in NewAvatarSkinnedMeshRenderers) {
-				Transform[] ChildBones = NewSkinnedMeshRenderer.bones;
+                Undo.RecordObject(NewSkinnedMeshRenderer, "Replace SkinnedMeshRenderer Bones Settings");
+                Transform[] ChildBones = NewSkinnedMeshRenderer.bones;
 				NewSkinnedMeshRenderer.rootBone = AvatarRootBone;
 				for (int BoneIndex = 0; BoneIndex < ChildBones.Length; BoneIndex++) {
 					for (int TransformIndex = 0; TransformIndex < OldArmatureTransforms.Length; TransformIndex++) {
@@ -368,15 +387,18 @@ namespace com.vrsuya.avatarrebuilder {
 					}
 				}
 				NewSkinnedMeshRenderer.bones = ChildBones;
-			}
+                Undo.CollapseUndoOperations(UndoGroupIndex);
+            }
 			return;
 		}
 
 		/// <summary>신규 아바타에 GameObject 활성화 상태를 복사합니다.</summary>
 		private static void CopyGameObjectActive() {
 			for (int Index = 0; Index < NewAvatarGameObjects.Length; Index++) {
-				NewAvatarGameObjects[Index].SetActive(OldAvatarGameObjects[Index].activeSelf);
-			}
+                Undo.RecordObject(NewAvatarGameObjects[Index], "Copy GameObject Active Status");
+                NewAvatarGameObjects[Index].SetActive(OldAvatarGameObjects[Index].activeSelf);
+                Undo.CollapseUndoOperations(UndoGroupIndex);
+            }
 			return;
 		}
 
@@ -385,23 +407,29 @@ namespace com.vrsuya.avatarrebuilder {
 			string[] NewArmatureTransformNames = NewArmatureTransforms.Select(NewTransform => NewTransform.name).ToArray();
 			for (int Index = OldArmatureTransforms.Length - 1; Index >= 0; Index--) {
 				if (Array.Exists(NewArmatureTransformNames, Name => Name == OldArmatureTransforms[Index].name) == true) {
-					OldArmatureTransforms[Index].transform.SetAsFirstSibling();
-				}
+                    Undo.RecordObject(OldArmatureTransforms[Index], "Set GameObject order first");
+                    OldArmatureTransforms[Index].transform.SetAsFirstSibling();
+                    Undo.CollapseUndoOperations(UndoGroupIndex);
+                }
 			}
 			for (int Index = HumanBodyBoneList.Count - 1; Index >= 0; Index--) {
 				if (HumanBodyBoneList[Index] == HumanBodyBones.LastBone) continue;
 				if (OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]) == null) continue;
-				OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]).SetAsFirstSibling();
-			}
+                Undo.RecordObject(OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]), "Set GameObject order first");
+                OldAvatarAnimator.GetBoneTransform(HumanBodyBoneList[Index]).SetAsFirstSibling();
+                Undo.CollapseUndoOperations(UndoGroupIndex);
+            }
 			return;
 		}
 
 		/// <summary>신규 아바타의 GameObject를 기존 아바타로 이전 및 동일한 순서로 편성합니다.</summary> 
 		private static void MoveGameObjects() {
 			for (int Index = 0; Index < NewAvatarGameObjects.Length; Index++) {
-				NewAvatarGameObjects[Index].transform.SetParent(OldAvatarGameObjects[Index].transform.parent, false);
+                Undo.RecordObject(NewAvatarGameObjects[Index], "Move New GameObject");
+                NewAvatarGameObjects[Index].transform.SetParent(OldAvatarGameObjects[Index].transform.parent, false);
 				NewAvatarGameObjects[Index].transform.SetSiblingIndex(OldAvatarGameObjects[Index].transform.GetSiblingIndex() + 1);
-			}
+                Undo.CollapseUndoOperations(UndoGroupIndex);
+            }
 			return;
 		}
 
@@ -411,8 +439,10 @@ namespace com.vrsuya.avatarrebuilder {
                 string[] HeadChildTransformNames = GetChildTransforms(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head)).Select(TransformItem => TransformItem.name).ToArray();
                 foreach (GameObject CheekBoneGameObject in NewCheekBoneGameObjects) {
 					if (!Array.Exists(HeadChildTransformNames, TransformName => CheekBoneGameObject.name == TransformName)) {
-						CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
-					}
+                        Undo.RecordObject(CheekBoneGameObject, "Move Cheek GameObject");
+                        CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
+                        Undo.CollapseUndoOperations(UndoGroupIndex);
+                    }
 				}
 			}
 			return;
@@ -475,13 +505,17 @@ namespace com.vrsuya.avatarrebuilder {
 					switch (ToeBoneGameObject.name.Substring(ToeBoneGameObject.name.Length - 1, 1)) {
 						case "L":
 							if (!Array.Exists(TargetLeftChildTransformNames, TransformName => ToeBoneGameObject.name == TransformName)) {
-								ToeBoneGameObject.transform.SetParent(TargetLeft, false);
-							}
+                                Undo.RecordObject(ToeBoneGameObject, "Move Toe GameObject");
+                                ToeBoneGameObject.transform.SetParent(TargetLeft, false);
+                                Undo.CollapseUndoOperations(UndoGroupIndex);
+                            }
 							break;
 						case "R":
 							if (!Array.Exists(TargetRightChildTransformNames, TransformName => ToeBoneGameObject.name == TransformName)) {
-								ToeBoneGameObject.transform.SetParent(TargetRight, false);
-							}
+                                Undo.RecordObject(ToeBoneGameObject, "Move Toe GameObject");
+                                ToeBoneGameObject.transform.SetParent(TargetRight, false);
+                                Undo.CollapseUndoOperations(UndoGroupIndex);
+                            }
 							break;
 					}
 				}
@@ -494,29 +528,37 @@ namespace com.vrsuya.avatarrebuilder {
 			if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) {
 				if (OldCheekBoneGameObjects.Length > 0) {
 					for (int Index = 0; Index < OldCheekBoneGameObjects.Length; Index++) {
-						DestroyImmediate(OldCheekBoneGameObjects[Index]);
-					}
+                        Undo.RecordObject(OldCheekBoneGameObjects[Index], "Delete Exist Bone GameObject");
+                        DestroyImmediate(OldCheekBoneGameObjects[Index]);
+                        Undo.CollapseUndoOperations(UndoGroupIndex);
+                    }
 				}
 			}
 			if (OldAvatarGameObjects.Length > 0) {
 				for (int Index = 0; Index < OldAvatarGameObjects.Length; Index++) {
-					DestroyImmediate(OldAvatarGameObjects[Index]);
-				}
+                    Undo.RecordObject(OldAvatarGameObjects[Index], "Delete Exist SkinnedMeshRenderer GameObject");
+                    DestroyImmediate(OldAvatarGameObjects[Index]);
+                    Undo.CollapseUndoOperations(UndoGroupIndex);
+                }
 			}
-			DestroyImmediate(NewAvatarGameObject);
-			return;
+            Undo.RecordObject(NewAvatarGameObject, "Delete New Avatar GameObject");
+            DestroyImmediate(NewAvatarGameObject);
+            Undo.CollapseUndoOperations(UndoGroupIndex);
+            return;
 		}
 
 		/// <summary>VRCAvatarDescriptor 컴포넌트에 새로운 스킨드 메쉬로 업데이트합니다.</summary>
 		private static void UpdateVRCAvatarDescriptor() {
 			if (OldVRCAvatarDescriptor) {
-				if (NewAvatarHeadVisemeSkinnedMeshRenderer) {
+                Undo.RecordObject(OldVRCAvatarDescriptor, "Update VRC Avatar Descriptor");
+                if (NewAvatarHeadVisemeSkinnedMeshRenderer) {
 					OldVRCAvatarDescriptor.VisemeSkinnedMesh = NewAvatarHeadVisemeSkinnedMeshRenderer;
 				}
 				if (NewAvatarHeadEyelidsSkinnedMeshRenderer) {
 					OldVRCAvatarDescriptor.customEyeLookSettings.eyelidsSkinnedMesh = NewAvatarHeadEyelidsSkinnedMeshRenderer;
 				}
-			}
+                Undo.CollapseUndoOperations(UndoGroupIndex);
+            }
 			return;
 		}
 
