@@ -57,13 +57,12 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
 		/// <returns>새 아바타 GameObject가 Scene에 존재하는지 여부</returns>
 		private static bool IsSameFBX() {
-			bool Result = false;
 			UnityEngine.Avatar OldAnimatorAvatar = OldAvatarAnimator.avatar;
 			UnityEngine.Avatar NewAnimatorAvatar = NewAvatarAnimator.avatar;
 			string OldAvatarAssetPath = AssetDatabase.GetAssetPath(OldAnimatorAvatar);
 			string NewAvatarAssetPath = AssetDatabase.GetAssetPath(NewAnimatorAvatar);
-			if (OldAvatarAssetPath == NewAvatarAssetPath) Result = true;
-			return Result;
+			if (OldAvatarAssetPath == NewAvatarAssetPath) return (true);
+			return false;
 		}
 
 		/// <summary>새 아바타 GameObject가 Scene에 존재하는지 여부를 알려줍니다.</summary>
