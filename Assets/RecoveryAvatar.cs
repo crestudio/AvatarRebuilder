@@ -135,10 +135,6 @@ namespace com.vrsuya.avatarrebuilder {
 		private static BoneNameType GetBoneNameType() {
 			BoneNameType TargetBoneType = BoneNameType.General;
 			switch (TargetAvatar) {
-				case Avatar.NULL:
-				case Avatar.SELESTIA:
-					TargetBoneType = BoneNameType.General;
-					break;
 				case Avatar.Karin:
 				case Avatar.Milk:
 				case Avatar.Mint:
@@ -148,7 +144,11 @@ namespace com.vrsuya.avatarrebuilder {
 				case Avatar.Yoll:
 					TargetBoneType = BoneNameType.Yoll;
 					break;
-			}
+				default:
+                    TargetBoneType = BoneNameType.General;
+                    break;
+
+            }
 			return TargetBoneType;
 		}
 
