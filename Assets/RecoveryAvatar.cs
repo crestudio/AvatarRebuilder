@@ -102,7 +102,7 @@ namespace com.vrsuya.avatarrebuilder {
 			GetHeadSkinnedMeshRenderers();
 			ResizeNewAvatarTransform();
 			GetArmatureTransforms();
-			GetCheekTransforms();
+            if (TargetAvatar != Avatar.SELESTIA) GetCheekTransforms();
 			GetFeetTransforms();
 			if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) GetOldCheekBoneGameObjects();
 			RenameGameObjects();
@@ -163,10 +163,8 @@ namespace com.vrsuya.avatarrebuilder {
 
 		/// <summary>신규 아바타에서 루트 볼 본 목록 얻습니다.</summary>
 		private static void GetCheekTransforms() {
-			if (TargetAvatar != Avatar.SELESTIA) {
-				string[] CheekBoneNames = dictCheekBoneNames[TargetBoneType].Take(2).ToArray();
-				NewCheekBoneGameObjects = Array.FindAll(NewArmatureTransforms, ArmatureTransform => Array.Exists(CheekBoneNames, BoneName => ArmatureTransform.gameObject.name == BoneName) == true).Select(Transform => Transform.gameObject).ToArray();
-			}
+			string[] CheekBoneNames = dictCheekBoneNames[TargetBoneType].Take(2).ToArray();
+			NewCheekBoneGameObjects = Array.FindAll(NewArmatureTransforms, ArmatureTransform => Array.Exists(CheekBoneNames, BoneName => ArmatureTransform.gameObject.name == BoneName) == true).Select(Transform => Transform.gameObject).ToArray();
 			return;
 		}
 
