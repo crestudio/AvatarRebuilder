@@ -43,16 +43,9 @@ namespace com.vrsuya.avatarrebuilder {
         /// <summary>기존 아바타를 복제하여 백업본을 생성합니다.</summary>
         internal static void CreateDuplicateAvatar() {
 			Undo.RecordObject(OldAvatarGameObject, "Duplicated Old Avatar");
-			GameObject DuplicatedAvatar;
-			if (PrefabUtility.GetPrefabAssetType(OldAvatarGameObject) != PrefabAssetType.NotAPrefab) {
-				GameObject OldAvatarGameObjectPrefab = PrefabUtility.GetCorrespondingObjectFromSource(OldAvatarGameObject);
-				DuplicatedAvatar = (GameObject)PrefabUtility.InstantiatePrefab(OldAvatarGameObjectPrefab);
-				PrefabUtility.SetPropertyModifications(DuplicatedAvatar, PrefabUtility.GetPropertyModifications(OldAvatarGameObject));
-			} else {
-				DuplicatedAvatar = Instantiate(OldAvatarGameObject);
-			}
-			Undo.RegisterCreatedObjectUndo(DuplicatedAvatar, "Duplicated Old Avatar");
 			string TargetName = OldAvatarGameObject.name;
+			GameObject DuplicatedAvatar = DuplicateGameObject.DuplicateGameObjectInstance(OldAvatarGameObject);
+			Undo.RegisterCreatedObjectUndo(DuplicatedAvatar, "Duplicated Old Avatar");
 			OldAvatarGameObject.name = TargetName + " (Backup)";
 			OldAvatarGameObject.SetActive(false);
 			DuplicatedAvatar.name = TargetName;
