@@ -53,23 +53,24 @@ namespace com.vrsuya.avatarrebuilder {
 		protected static bool ToggleReorderGameObject;
 
 		protected static string StatusString;
+		protected static bool ActiveAvatarRebuilder;
 		protected static bool NewAvatarPatched;
 		protected static int UndoGroupIndex;
 
 		// 컴포넌트 최초 로드시 동작
 		void OnEnable() {
-			if (!OldAvatarGameObjectEditor) {
+			if (!ActiveAvatarRebuilder) {
 				OldAvatarGameObjectEditor = this.gameObject;
-            }
-            if (OldAvatarGameObjectEditor.GetComponent<Animator>()) {
-                OldAvatarAnimator = OldAvatarGameObjectEditor.GetComponent<Animator>();
-            }
-            if (OldAvatarAnimator) {
-                if (OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips)) {
-					AvatarRootBoneEditor = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips);
+				if (OldAvatarGameObjectEditor.GetComponent<Animator>()) {
+					OldAvatarAnimator = OldAvatarGameObjectEditor.GetComponent<Animator>();
 				}
-            }
-            SetStaticVariable();
+				if (OldAvatarAnimator) {
+					if (OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips)) {
+						AvatarRootBoneEditor = OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Hips);
+					}
+				}
+				SetStaticVariable();
+			}
 		}
 
 		private static Avatar[] GetSupportAvatarTypeList() {
@@ -116,7 +117,8 @@ namespace com.vrsuya.avatarrebuilder {
 			Undo.IncrementCurrentGroup();
 			Undo.SetCurrentGroupName("VRSuya Avatar Rebuilder");
             UndoGroupIndex = Undo.GetCurrentGroup();
-            SetStaticVariable();
+			ActiveAvatarRebuilder = true;
+			SetStaticVariable();
 			ClearVariable();
 			AvatarHandler.CheckExistNewAvatarInScene();
 			if (VerifyVariable()) {
@@ -125,10 +127,12 @@ namespace com.vrsuya.avatarrebuilder {
 				RecoveryAvatar.GetSkinnedMeshRenderers();
 				RecoveryAvatar.Recovery();
 				Debug.Log("[VRSuya AvatarRebuilder] Update Completed");
+				ActiveAvatarRebuilder = false;
 				DestroyImmediate(this);
 			}
 			SetEditorVariable();
-            return;
+			ActiveAvatarRebuilder = false;
+			return;
         }
 
 		/// <summary>정적 변수를 초기화 합니다.</summary>
