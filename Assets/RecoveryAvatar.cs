@@ -457,7 +457,12 @@ namespace com.vrsuya.avatarrebuilder {
                         CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
                         EditorUtility.SetDirty(CheekBoneGameObject);
                         Undo.CollapseUndoOperations(UndoGroupIndex);
-                    }
+                    } else if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) {
+						Undo.RecordObject(CheekBoneGameObject, "Move Cheek GameObject");
+						CheekBoneGameObject.transform.SetParent(OldAvatarAnimator.GetBoneTransform(HumanBodyBones.Head), false);
+						EditorUtility.SetDirty(CheekBoneGameObject);
+						Undo.CollapseUndoOperations(UndoGroupIndex);
+					}
 				}
 			}
 			return;
