@@ -46,11 +46,12 @@ namespace com.vrsuya.avatarrebuilder {
 			GameObject DuplicatedAvatar = DuplicateGameObject.DuplicateGameObjectInstance(OldAvatarGameObject);
 			Undo.RegisterCreatedObjectUndo(DuplicatedAvatar, "Duplicated Old Avatar");
 			DuplicatedAvatar.name = TargetName + " (Backup)";
-			DuplicatedAvatar.transform.SetSiblingIndex(OldAvatarGameObject.transform.GetSiblingIndex());
+			DuplicatedAvatar.transform.SetSiblingIndex(OldAvatarGameObject.transform.GetSiblingIndex() + 1);
 			DestroyImmediate(DuplicatedAvatar.GetComponent<AvatarRebuilder>());
 			DuplicatedAvatar.SetActive(false);
             EditorUtility.SetDirty(DuplicatedAvatar);
-            Undo.CollapseUndoOperations(UndoGroupIndex);
+			Selection.activeGameObject = OldAvatarGameObject;
+			Undo.CollapseUndoOperations(UndoGroupIndex);
 			return;
 		}
 
