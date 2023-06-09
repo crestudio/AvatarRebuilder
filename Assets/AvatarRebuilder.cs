@@ -85,6 +85,8 @@ namespace com.vrsuya.avatarrebuilder {
 			NewAvatarSkinnedMeshRenderers = NewAvatarSkinnedMeshRenderersEditor;
 			AvatarRootBone = AvatarRootBoneEditor;
             ToggleRestoreArmatureTransform = ToggleRestoreArmatureTransformEditor;
+			ToggleResetRestPose = ToggleResetRestPoseEditor;
+			ToggleReorderGameObject = ToggleReorderGameObjectEditor;
 			return;
 		}
 
