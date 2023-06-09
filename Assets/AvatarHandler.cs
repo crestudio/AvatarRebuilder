@@ -42,21 +42,15 @@ namespace com.vrsuya.avatarrebuilder {
 
         /// <summary>기존 아바타를 복제하여 백업본을 생성합니다.</summary>
         internal static void CreateDuplicateAvatar() {
-			Undo.RecordObject(OldAvatarGameObject, "Duplicated Old Avatar");
 			string TargetName = OldAvatarGameObject.name;
 			GameObject DuplicatedAvatar = DuplicateGameObject.DuplicateGameObjectInstance(OldAvatarGameObject);
 			Undo.RegisterCreatedObjectUndo(DuplicatedAvatar, "Duplicated Old Avatar");
-			OldAvatarGameObject.name = TargetName + " (Backup)";
-			OldAvatarGameObject.SetActive(false);
-			DuplicatedAvatar.name = TargetName;
-            DuplicatedAvatar.transform.SetSiblingIndex(OldAvatarGameObject.transform.GetSiblingIndex());
-            EditorUtility.SetDirty(OldAvatarGameObject);
+			DuplicatedAvatar.name = TargetName + " (Backup)";
+			DuplicatedAvatar.transform.SetSiblingIndex(OldAvatarGameObject.transform.GetSiblingIndex());
+			DestroyImmediate(DuplicatedAvatar.GetComponent<AvatarRebuilder>());
+			DuplicatedAvatar.SetActive(false);
             EditorUtility.SetDirty(DuplicatedAvatar);
             Undo.CollapseUndoOperations(UndoGroupIndex);
-			OldAvatarGameObject = DuplicatedAvatar;
-			OldAvatarAnimator = DuplicatedAvatar.GetComponent<Animator>();
-			AvatarRootBone = DuplicatedAvatar.GetComponent<Animator>().GetBoneTransform(HumanBodyBones.Hips);
-			Selection.activeGameObject = DuplicatedAvatar;
 			return;
 		}
 

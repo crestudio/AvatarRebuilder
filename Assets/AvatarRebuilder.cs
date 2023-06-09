@@ -128,7 +128,6 @@ namespace com.vrsuya.avatarrebuilder {
 				RecoveryAvatar.Recovery();
 				Debug.Log("[VRSuya AvatarRebuilder] Update Completed");
 				ActiveAvatarRebuilder = false;
-				DestroyImmediate(OldAvatarGameObject.GetComponent<AvatarRebuilder>());
 				DestroyImmediate(this);
 			}
 			SetEditorVariable();
