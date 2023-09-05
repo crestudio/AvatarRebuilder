@@ -69,7 +69,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "String_ReorderGameObject", "Reorder Armature" },
 			{ "String_SkinnedMeshRendererList", "Replacement SkinnedMeshRenderer List" },
 			{ "String_ImportSkinnedMeshRenderer", "Import SkinnedMeshRenderer List" },
-			{ "String_ReplaceAvatar", "Replace SkinnedMeshRenderer and Avatar" },
+			{ "String_ReplaceAvatar", "Replace Avatar" },
 
 			// 상태 메시지
 			{ "String_General", "Please select [General] for avatars that do not exist in the list" },
@@ -99,7 +99,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "String_ReorderGameObject", "아마추어 순서 복원" },
 			{ "String_SkinnedMeshRendererList", "복원될 스킨드 메쉬 렌더러 목록" },
 			{ "String_ImportSkinnedMeshRenderer", "스킨드 메쉬 렌더러 목록 가져오기" },
-			{ "String_ReplaceAvatar", "스킨드 메쉬 렌더러 및 아바타 복원" },
+			{ "String_ReplaceAvatar", "아바타 교체" },
 
 			// 상태 메시지
 			{ "String_General", "목록에 존재하지 않는 아바타는 [일반]을 선택해 주세요" },
@@ -129,7 +129,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "String_ReorderGameObject", "アーマチュア順序復元" },
 			{ "String_SkinnedMeshRendererList", "復元されるSkinnedMeshRenderer一覧" },
 			{ "String_ImportSkinnedMeshRenderer", "SkinnedMeshRendererリストを取得" },
-			{ "String_ReplaceAvatar", "SkinnedMeshRenderer及びアバター復元" },
+			{ "String_ReplaceAvatar", "アバター交換" },
 
 			// 상태 메시지
 			{ "String_General", "リストに存在しないアバターは「一般」を選択してください" },
