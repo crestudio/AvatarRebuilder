@@ -143,6 +143,7 @@ namespace com.vrsuya.avatarrebuilder {
 		private static readonly Dictionary<AvatarRebuilder.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarRebuilder.Avatar, string[]>() {
 			{ AvatarRebuilder.Avatar.NULL, new string[] { "General", "일반", "一般" } },
 			{ AvatarRebuilder.Avatar.Karin, new string[] { "Karin", "카린", "カリン" } },
+			{ AvatarRebuilder.Avatar.MANUKA, new string[] { "MANUKA", "마누카", "マヌカ" } },
 			{ AvatarRebuilder.Avatar.Milk, new string[] { "Milk(New)", "밀크(신)", "ミルク（新）" } },
 			{ AvatarRebuilder.Avatar.Mint, new string[] { "Mint", "민트", "ミント" } },
 			{ AvatarRebuilder.Avatar.Rusk, new string[] { "Rusk", "러스크", "ラスク" } },

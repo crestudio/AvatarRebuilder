@@ -40,7 +40,7 @@ namespace com.vrsuya.avatarrebuilder {
 		protected static Avatar TargetAvatar;
 
 		public enum Avatar {
-			NULL, Karin, Milk, Mint, Rusk, SELESTIA, Yoll
+			NULL, Karin, MANUKA, Milk, Mint, Rusk, SELESTIA, Yoll
 		}
 
 		protected enum BoneNameType {

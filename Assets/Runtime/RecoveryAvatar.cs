@@ -102,7 +102,7 @@ namespace com.vrsuya.avatarrebuilder {
 			GetHeadSkinnedMeshRenderers();
 			ResizeNewAvatarTransform();
 			GetArmatureTransforms();
-            if (TargetAvatar != Avatar.SELESTIA) GetCheekTransforms();
+            if (TargetAvatar != Avatar.SELESTIA && TargetAvatar != Avatar.MANUKA) GetCheekTransforms();
 			GetFeetTransforms();
 			if (TargetBoneType == BoneNameType.Komado || TargetBoneType == BoneNameType.Yoll) GetOldCheekBoneGameObjects();
 			RenameGameObjects();
@@ -117,7 +117,7 @@ namespace com.vrsuya.avatarrebuilder {
 			ReplaceSkinnedMeshRendererBoneSettings();
 			CopyGameObjectActive();
 			MoveGameObjects();
-			if (TargetAvatar != Avatar.SELESTIA) MoveCheekBoneGameObjects();
+			if (TargetAvatar != Avatar.SELESTIA && TargetAvatar != Avatar.MANUKA) MoveCheekBoneGameObjects();
 			MoveFeetBoneGameObjects();
 			DeleteGameObjects();
 			UpdateVRCAvatarDescriptor();
