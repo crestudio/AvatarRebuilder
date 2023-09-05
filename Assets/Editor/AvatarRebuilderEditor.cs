@@ -69,6 +69,7 @@ namespace com.vrsuya.avatarrebuilder {
             if (GUILayout.Button(LanguageHelper.GetContextString("String_ImportSkinnedMeshRenderer"))) {
                 (target as AvatarRebuilder).UpdateSkinnedMeshRendererList();
             }
+			EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_General"), MessageType.Info);
 			if (!string.IsNullOrEmpty(SerializedStatusString.stringValue)) {
 				EditorGUILayout.HelpBox(LanguageHelper.GetContextString(SerializedStatusString.stringValue), MessageType.Warning);
 			}

@@ -71,6 +71,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "String_ReplaceAvatar", "Replace SkinnedMeshRenderer and Avatar" },
 
 			// 상태 메시지
+			{ "String_General", "Please select [General] for avatars that do not exist in the list" },
 			{ "String_Warning", "Other components than SkinnedMeshRenderer will not be copied" },
 
 			// 에러 코드
@@ -99,6 +100,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "String_ReplaceAvatar", "스킨드 메쉬 렌더러 및 아바타 복원" },
 
 			// 상태 메시지
+			{ "String_General", "목록에 존재하지 않는 아바타는 [일반]을 선택해 주세요" },
 			{ "String_Warning", "스킨드 메쉬 렌더러 외의 속성은 가져오지 않습니다!" },
 
 			// 에러 코드
@@ -127,6 +129,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ "String_ReplaceAvatar", "SkinnedMeshRenderer及びアバター復元" },
 
 			// 상태 메시지
+			{ "String_General", "リストに存在しないアバターは「一般」を選択してください" },
 			{ "String_Warning", "SkinnedMeshRenderer以外のプロパティは取得しません！" },
 
 			// 에러 코드
