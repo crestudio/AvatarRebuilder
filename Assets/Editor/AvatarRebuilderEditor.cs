@@ -21,14 +21,12 @@ namespace com.vrsuya.avatarrebuilder {
         SerializedProperty SerializedToggleResetRestPose;
         SerializedProperty SerializedToggleReorderGameObject;
 
-        SerializedProperty SerializedSupportedAvatarTypeEditor;
 		SerializedProperty SerializedStatusString;
 
 		public static int LanguageIndex = 0;
         public static readonly string[] LanguageType = new[] { "English", "한국어", "日本語" };
 		public static int AvatarType = 0;
 		public static string[] AvatarNames = new string[0];
-		public static string SelectedAvatarName = "";
         public static bool FoldAdvanced = false;
 
         void OnEnable() {
@@ -41,22 +39,20 @@ namespace com.vrsuya.avatarrebuilder {
             SerializedToggleResetRestPose = serializedObject.FindProperty("ToggleResetRestPoseEditor");
             SerializedToggleReorderGameObject = serializedObject.FindProperty("ToggleReorderGameObjectEditor");
 
-			SerializedSupportedAvatarTypeEditor = serializedObject.FindProperty("SupportedAvatarTypeEditor");
 			SerializedStatusString = serializedObject.FindProperty("StatusStringEditor");
         }
 
         public override void OnInspectorGUI() {
             serializedObject.Update();
-			AvatarNames = LanguageHelper.ReturnAvatarName(SerializedSupportedAvatarTypeEditor);
-			LanguageIndex = EditorGUILayout.Popup(LanguageHelper.GetContextString("String_Language"), LanguageIndex, LanguageType);
+            AvatarNames = LanguageHelper.ReturnAvatarName();
+            LanguageIndex = EditorGUILayout.Popup(LanguageHelper.GetContextString("String_Language"), LanguageIndex, LanguageType);
             EditorGUILayout.Space(EditorGUIUtility.singleLineHeight);
             GUI.enabled = false;
             EditorGUILayout.PropertyField(SerializedOldAvatarGameObject, new GUIContent(LanguageHelper.GetContextString("String_OriginalAvatar")));
             GUI.enabled = true;
             EditorGUILayout.PropertyField(SerializedNewAvatarGameObject, new GUIContent(LanguageHelper.GetContextString("String_NewAvatar")));
 			AvatarType = EditorGUILayout.Popup(LanguageHelper.GetContextString("String_AvatarType"), AvatarType, AvatarNames);
-			SelectedAvatarName = SerializedSupportedAvatarTypeEditor.enumNames[AvatarType];
-			(target as AvatarRebuilder).AvatarTypeNameEditor = SelectedAvatarName;
+            (target as AvatarRebuilder).AvatarTypeIndexEditor = AvatarType;
 			EditorGUILayout.HelpBox(LanguageHelper.GetContextString("String_General"), MessageType.Info);
 			FoldAdvanced = EditorGUILayout.Foldout(FoldAdvanced, LanguageHelper.GetContextString("String_Advanced"));
 			if (FoldAdvanced) {

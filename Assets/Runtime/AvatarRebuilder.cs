@@ -21,8 +21,7 @@ namespace com.vrsuya.avatarrebuilder {
 		// 에디터용 변수
 		public GameObject NewAvatarGameObjectEditor = null;
 		public GameObject OldAvatarGameObjectEditor = null;
-		public string AvatarTypeNameEditor;
-		public Avatar[] SupportedAvatarTypeEditor = GetSupportAvatarTypeList();
+		public int AvatarTypeIndexEditor;
 		public SkinnedMeshRenderer[] NewAvatarSkinnedMeshRenderersEditor = new SkinnedMeshRenderer[0];
 		public Transform AvatarRootBoneEditor = null;
 		public bool ToggleRestoreArmatureTransformEditor = true;
@@ -73,15 +72,11 @@ namespace com.vrsuya.avatarrebuilder {
 			}
 		}
 
-		private static Avatar[] GetSupportAvatarTypeList() {
-			return Enum.GetValues(typeof(Avatar)).Cast<Avatar>().ToArray();
-		}
-
 		/// <summary>에디터 변수 -> 정적 변수 동기화합니다.</summary>
 		private void SetStaticVariable() {
 			NewAvatarGameObject = NewAvatarGameObjectEditor;
 			OldAvatarGameObject = OldAvatarGameObjectEditor;
-			if (AvatarTypeNameEditor != null) TargetAvatar = (Avatar)Enum.Parse(typeof(Avatar), AvatarTypeNameEditor);
+			if (Enum.IsDefined(typeof(Avatar), AvatarTypeIndexEditor)) TargetAvatar = (Avatar)AvatarTypeIndexEditor;
 			NewAvatarSkinnedMeshRenderers = NewAvatarSkinnedMeshRenderersEditor;
 			AvatarRootBone = AvatarRootBoneEditor;
             ToggleRestoreArmatureTransform = ToggleRestoreArmatureTransformEditor;
