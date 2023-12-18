@@ -39,19 +39,15 @@ namespace com.vrsuya.avatarrebuilder {
 
 		/// <summary>요청한 아바타 이름을 설정된 언어에 맞춰 리스트를 재작성합니다.</summary>
 		/// <returns>아바타 이름의 현재 설정된 언어 버전</returns>
-		internal static string[] ReturnAvatarName(SerializedProperty AvatarNameListProperty) {
-			string[] ReturnAvatarList = new string[0];
-			string[] AvatarNameList = AvatarNameListProperty.enumNames;
-			AvatarRebuilder.Avatar[] InstalledVRSuyaProductAvatars = new AvatarRebuilder.Avatar[AvatarNameList.Length];
-			for (int Index = 0; Index < AvatarNameList.Length; Index++) {
-				InstalledVRSuyaProductAvatars[Index] = (AvatarRebuilder.Avatar)System.Enum.Parse(typeof(AvatarRebuilder.Avatar), AvatarNameList[Index]);
-			}
-			foreach (var AvatarName in InstalledVRSuyaProductAvatars) {
-				if (dictAvatarNames.ContainsKey(AvatarName)) {
-					ReturnAvatarList = ReturnAvatarList.Concat(new string[] { dictAvatarNames[AvatarName][LanguageIndex] }).ToArray();
-				}
-			}
-			return ReturnAvatarList;
+		internal static string[] ReturnAvatarName() {
+			return typeof(AvatarRebuilder.Avatar)
+				.GetFields()
+				.Where(field => field.FieldType == typeof(AvatarRebuilder.Avatar))
+				.Select(field => field.GetValue(null))
+				.Cast<AvatarRebuilder.Avatar>()
+				.Where(avatarEnum => dictAvatarNames.ContainsKey(avatarEnum))
+				.Select(avatarEnum => dictAvatarNames[avatarEnum][LanguageIndex])
+				.ToArray();
 		}
 
 		// 영어 사전 데이터
