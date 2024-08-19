@@ -65,8 +65,8 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <summary>신규 아바타와 기존 아바타와 비교하여 패치해야 되는 SkinnedMeshRender 목록을 반환합니다.</summary>
 		/// <returns>패치 적용 대상인 SkinnedMeshRenderer 배열</returns>
 		internal static SkinnedMeshRenderer[] GetSkinnedMeshRenderers() {
-			SkinnedMeshRenderer[] AllNewAvatarSkinnedMeshRenderers = NewAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
-			SkinnedMeshRenderer[] AllOldAvatarSkinnedMeshRenderers = OldAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>();
+			SkinnedMeshRenderer[] AllNewAvatarSkinnedMeshRenderers = NewAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
+			SkinnedMeshRenderer[] AllOldAvatarSkinnedMeshRenderers = OldAvatarGameObject.GetComponentsInChildren<SkinnedMeshRenderer>(true);
 
 			NewAvatarGameObjects = new GameObject[AllNewAvatarSkinnedMeshRenderers.Length];
 			OldAvatarGameObjects = new GameObject[AllOldAvatarSkinnedMeshRenderers.Length];
