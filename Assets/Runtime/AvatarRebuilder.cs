@@ -14,7 +14,7 @@ using UnityEngine;
 namespace com.vrsuya.avatarrebuilder {
 
     [ExecuteInEditMode]
-	[AddComponentMenu("VRSuya Avatar Rebuilder")]
+	[AddComponentMenu("VRSuya/VRSuya Avatar Rebuilder")]
 	public class AvatarRebuilder : MonoBehaviour {
 
 		// 에디터용 변수
