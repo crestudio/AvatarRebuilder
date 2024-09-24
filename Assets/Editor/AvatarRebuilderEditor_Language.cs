@@ -144,6 +144,7 @@ namespace com.vrsuya.avatarrebuilder {
 		/// <returns>요청한 아바타 이름들의 현재 설정된 언어 버전</returns>
 		private static readonly Dictionary<AvatarRebuilder.Avatar, string[]> dictAvatarNames = new Dictionary<AvatarRebuilder.Avatar, string[]>() {
 			{ AvatarRebuilder.Avatar.General, new string[] { "General", "일반", "一般" } },
+			{ AvatarRebuilder.Avatar.Airi, new string[] { "Airi", "아이리", "愛莉" } },
 			{ AvatarRebuilder.Avatar.Aldina, new string[] { "Aldina", "알디나", "アルディナ" } },
 			{ AvatarRebuilder.Avatar.Angura, new string[] { "Angura", "앙그라", "アングラ" } },
 			{ AvatarRebuilder.Avatar.Anon, new string[] { "Anon", "아논", "あのん" } },
@@ -193,6 +194,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ AvatarRebuilder.Avatar.Rusk, new string[] { "Rusk", "러스크", "ラスク" } },
 			{ AvatarRebuilder.Avatar.SELESTIA, new string[] { "SELESTIA", "셀레스티아", "セレスティア" } },
 			{ AvatarRebuilder.Avatar.Sephira, new string[] { "Sephira", "세피라", "セフィラ" } },
+			{ AvatarRebuilder.Avatar.Shinano, new string[] { "Shinano", "시나노", "しなの" } },
 			{ AvatarRebuilder.Avatar.Shinra, new string[] { "Shinra", "신라", "森羅" } },
 			{ AvatarRebuilder.Avatar.Sio, new string[] { "Sio", "시오", "しお" } },
 			{ AvatarRebuilder.Avatar.Sue, new string[] { "Sue", "스우", "透羽" } },
