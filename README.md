@@ -4,7 +4,7 @@
 
 ## 다운로드
 
-[VCC 패키지 추가](https://crestudio.notion.site/Avatar-Rebuilder-512e1be08ffa4615be2417feb23f6280)
+[VCC 패키지 추가](http://macchiato.kr/docs/vrsuya/addon/VPM_Setup)
 
 [UnityPackage 다운로드](https://github.com/crestudio/AvatarRebuilder/releases)
 
