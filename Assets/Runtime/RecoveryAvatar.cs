@@ -7,6 +7,7 @@ using UnityEditor;
 using UnityEngine;
 
 using VRC.SDK3.Avatars.Components;
+using VRSuya.Core.Avatar;
 
 /*
  * VRSuya AvatarRebuilder
@@ -41,7 +42,7 @@ namespace com.vrsuya.avatarrebuilder {
 		private static SkinnedMeshRenderer[] OldAvatarSkinnedMeshRenderers;
 
 		// 사전 데이터
-		private static List<HumanBodyBones> HumanBodyBoneList = GetHumanBoneList();
+		private static List<HumanBodyBones> HumanBodyBoneList = AvatarController.GetHumanBoneList();
 		private static readonly string[] ArmatureNames = { "Armature", "armature", "Sonia", "Ash" };
 		private static readonly string[] ToeBoneName = { "Left Toe", "Right Toe", "Toe.L", "Toe.R", "Toe_L", "Toe_R" }; 
 		private static readonly Dictionary<BoneNameType, string[]> dictCheekBoneNames = new Dictionary<BoneNameType, string[]>() {
@@ -122,12 +123,6 @@ namespace com.vrsuya.avatarrebuilder {
 			DeleteGameObjects();
 			UpdateVRCAvatarDescriptor();
 			return;
-		}
-
-		/// <summary>HumanBodyBones의 하위 본 목록들을 반환합니다.</summary>
-		/// <returns>HumanBodyBones 목록</returns>
-		private static List<HumanBodyBones> GetHumanBoneList() {
-			return Enum.GetValues(typeof(HumanBodyBones)).Cast<HumanBodyBones>().ToList();
 		}
 
 		/// <summary>어떤 본 이름 타입을 검색해야 될 지 타입을 검색합니다.</summary>

@@ -5,6 +5,8 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+using VRSuya.Core.Unity;
+
 /*
  * VRSuya AvatarRebuilder
  * Contact : vrsuya@gmail.com // Twitter : https://twitter.com/VRSuya
