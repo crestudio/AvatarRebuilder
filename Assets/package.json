@@ -1,6 +1,6 @@
 {
   "name": "com.vrsuya.avatarrebuilder",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "displayName": "VRSuya - Avatar Rebuilder",
   "description": "Automatic apply of changed a bone armature and restructure Skinned Mesh Renderer components, Designed for VRSuya Product.",
   "unity": "2019.4",
@@ -19,6 +19,7 @@
   "url": "https://github.com/crestudio/AvatarRebuilder",
   "repo": "https://server.macchiato.kr/vpm/vpm.json",
   "vpmDependencies": {
-    "com.vrchat.avatars": ">=3.0.9"
+    "com.vrchat.avatars": ">=3.0.9",
+    "com.vrsuya.core": ">=0.0.1"
   }
 }
