@@ -7,7 +7,8 @@ using UnityEditor;
 using UnityEngine;
 
 using VRC.SDK3.Avatars.Components;
-using VRSuya.Core.Avatar;
+
+using VRSuya.Core;
 
 /*
  * VRSuya AvatarRebuilder

@@ -5,7 +5,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-using VRSuya.Core.Unity;
+using VRSuya.Core;
 
 /*
  * VRSuya AvatarRebuilder
