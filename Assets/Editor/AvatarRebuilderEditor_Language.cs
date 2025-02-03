@@ -179,6 +179,7 @@ namespace com.vrsuya.avatarrebuilder {
 			{ AvatarRebuilder.Avatar.Maya, new string[] { "Maya", "마야", "舞夜" } },
 			{ AvatarRebuilder.Avatar.Merino, new string[] { "Merino", "메리노", "メリノ" } },
 			{ AvatarRebuilder.Avatar.Milk, new string[] { "Milk(New)", "밀크(신)", "ミルク（新）" } },
+			{ AvatarRebuilder.Avatar.Milltina, new string[] { "Milltina", "밀티나", "ミルティナ" } },
 			{ AvatarRebuilder.Avatar.Minahoshi, new string[] { "Minahoshi", "미나호시", "みなほし" } },
 			{ AvatarRebuilder.Avatar.Minase, new string[] { "Minase", "미나세", "水瀬" } },
 			{ AvatarRebuilder.Avatar.Mint, new string[] { "Mint", "민트", "ミント" } },
